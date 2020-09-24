@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5717adf1-21d9-41d4-8d94-82a9d49a33f5" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" path="/usr/local/go" />
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="KubernetesApiPersistence">
+    <option name="context" value="gke_over-services-prod_us-east1-d_over-core-circle" />
+    <option name="namespace" value="default" />
+  </component>
+  <component name="ProjectId" id="1hsXyLt4xrGO41hjyt4nEOMW0SO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="go" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/evolution" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.." />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (1)">
+    <configuration name="BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ebb" />
+      <working_directory value="$PROJECT_DIR$/tree" />
+      <framework value="gobench" />
+      <kind value="PACKAGE" />
+      <package value="github.com/martinomburajr/ebb/tree" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QBenchmarkBinaryTree_CalculateRolling_NT16\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ebb" />
+      <working_directory value="$PROJECT_DIR$/tree" />
+      <framework value="gobench" />
+      <kind value="PACKAGE" />
+      <package value="github.com/martinomburajr/ebb/tree" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QBenchmarkBinaryTree_CalculateRolling_NT16\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCalculateRolling in github.com/martinomburajr/ebb/tree (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ebb" />
+      <working_directory value="$PROJECT_DIR$/tree" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/martinomburajr/ebb/tree" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestCalculateRolling\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCalculateRolling in github.com/martinomburajr/ebb/tree (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ebb" />
+      <working_directory value="$PROJECT_DIR$/tree" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/martinomburajr/ebb/tree" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestCalculateRolling\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestRandom in github.com/martinomburajr/ebb/tree" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ebb" />
+      <working_directory value="$PROJECT_DIR$/tree" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/martinomburajr/ebb/tree" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestRandom\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (1)" />
+        <item itemvalue="Go Test.TestCalculateRolling in github.com/martinomburajr/ebb/tree (2)" />
+        <item itemvalue="Go Test.TestRandom in github.com/martinomburajr/ebb/tree" />
+        <item itemvalue="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree" />
+        <item itemvalue="Go Test.TestCalculateRolling in github.com/martinomburajr/ebb/tree (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5717adf1-21d9-41d4-8d94-82a9d49a33f5" name="Default Changelist" comment="" />
+      <created>1600801027123</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600801027123</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="3512" y="23" width="1720" height="1417" key="#com.intellij.ide.util.MemberChooser" timestamp="1600855544215">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state x="3512" y="23" width="1720" height="1417" key="#com.intellij.ide.util.MemberChooser/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600855544215" />
+    <state width="2966" height="449" key="GridCell.Tab.0.bottom" timestamp="1600975530517">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.0.bottom/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304939" />
+    <state width="2966" height="449" key="GridCell.Tab.0.bottom/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530517" />
+    <state width="2966" height="449" key="GridCell.Tab.0.center" timestamp="1600975530516">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.0.center/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304938" />
+    <state width="2966" height="449" key="GridCell.Tab.0.center/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530516" />
+    <state width="2966" height="449" key="GridCell.Tab.0.left" timestamp="1600975530515">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.0.left/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304938" />
+    <state width="2966" height="449" key="GridCell.Tab.0.left/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530515" />
+    <state width="2966" height="449" key="GridCell.Tab.0.right" timestamp="1600975530516">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.0.right/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304938" />
+    <state width="2966" height="449" key="GridCell.Tab.0.right/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530516" />
+    <state width="2966" height="493" key="GridCell.Tab.1.bottom" timestamp="1600974546926">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.1.bottom/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892255550" />
+    <state width="2966" height="493" key="GridCell.Tab.1.bottom/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600974546926" />
+    <state width="2966" height="493" key="GridCell.Tab.1.center" timestamp="1600974546925">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.1.center/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892255549" />
+    <state width="2966" height="493" key="GridCell.Tab.1.center/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600974546925" />
+    <state width="2966" height="493" key="GridCell.Tab.1.left" timestamp="1600974546924">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.1.left/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892255548" />
+    <state width="2966" height="493" key="GridCell.Tab.1.left/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600974546924" />
+    <state width="2966" height="493" key="GridCell.Tab.1.right" timestamp="1600974546925">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state width="2971" height="493" key="GridCell.Tab.1.right/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892255550" />
+    <state width="2966" height="493" key="GridCell.Tab.1.right/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600974546925" />
+    <state x="3512" y="23" width="1720" height="1417" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1600870781328">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state x="3512" y="23" width="1720" height="1417" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600870781328" />
+    <state x="3512" y="23" width="1720" height="1417" key="refactoring.ChangeSignatureDialog" timestamp="1600969912205">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state x="3512" y="23" width="1720" height="1417" key="refactoring.ChangeSignatureDialog/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600969912205" />
+    <state x="3093" y="341" width="838" height="1032" key="search.everywhere.popup" timestamp="1600806503153">
+      <screen x="1792" y="23" width="3440" height="1417" />
+    </state>
+    <state x="3093" y="341" width="838" height="1032" key="search.everywhere.popup/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600806503153" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/tree/binarytree.go</url>
+          <line>56</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/tree/binarytree.go</url>
+          <line>71</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/eval/calculate.go</url>
+          <line>289</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/tree/calculate.go</url>
+          <line>70</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/tree/calculate.go</url>
+          <line>49</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/tree/calculate.go</url>
+          <line>36</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
