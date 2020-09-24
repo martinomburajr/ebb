@@ -45,8 +45,19 @@
       <recent name="$PROJECT_DIR$/.." />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (1)">
+  <component name="RunManager" selected="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (2)">
     <configuration name="BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="ebb" />
+      <working_directory value="$PROJECT_DIR$/tree" />
+      <framework value="gobench" />
+      <kind value="PACKAGE" />
+      <package value="github.com/martinomburajr/ebb/tree" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QBenchmarkBinaryTree_CalculateRolling_NT16\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="ebb" />
       <working_directory value="$PROJECT_DIR$/tree" />
       <framework value="gobench" />
@@ -68,46 +79,35 @@
       <pattern value="^\QBenchmarkBinaryTree_CalculateRolling_NT16\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestCalculateRolling in github.com/martinomburajr/ebb/tree (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="BenchmarkBinaryTree_CalculateRolling_NT194 in github.com/martinomburajr/ebb/tree (3)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="ebb" />
       <working_directory value="$PROJECT_DIR$/tree" />
-      <framework value="gotest" />
+      <framework value="gobench" />
       <kind value="PACKAGE" />
       <package value="github.com/martinomburajr/ebb/tree" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestCalculateRolling\E$" />
+      <pattern value="^\QBenchmarkBinaryTree_CalculateRolling_NT194\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestCalculateRolling in github.com/martinomburajr/ebb/tree (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="BenchmarkBinaryTree_CalculateRolling_NT194 in github.com/martinomburajr/ebb/tree (4)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="ebb" />
       <working_directory value="$PROJECT_DIR$/tree" />
-      <framework value="gotest" />
+      <framework value="gobench" />
       <kind value="PACKAGE" />
       <package value="github.com/martinomburajr/ebb/tree" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestCalculateRolling\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestRandom in github.com/martinomburajr/ebb/tree" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="ebb" />
-      <working_directory value="$PROJECT_DIR$/tree" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/martinomburajr/ebb/tree" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestRandom\E$" />
+      <pattern value="^\QBenchmarkBinaryTree_CalculateRolling_NT194\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (2)" />
         <item itemvalue="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree (1)" />
-        <item itemvalue="Go Test.TestCalculateRolling in github.com/martinomburajr/ebb/tree (2)" />
-        <item itemvalue="Go Test.TestRandom in github.com/martinomburajr/ebb/tree" />
         <item itemvalue="Go Test.BenchmarkBinaryTree_CalculateRolling_NT16 in github.com/martinomburajr/ebb/tree" />
-        <item itemvalue="Go Test.TestCalculateRolling in github.com/martinomburajr/ebb/tree (1)" />
+        <item itemvalue="Go Test.BenchmarkBinaryTree_CalculateRolling_NT194 in github.com/martinomburajr/ebb/tree (4)" />
+        <item itemvalue="Go Test.BenchmarkBinaryTree_CalculateRolling_NT194 in github.com/martinomburajr/ebb/tree (3)" />
       </list>
     </recent_temporary>
   </component>
@@ -133,26 +133,26 @@
       <screen x="1792" y="23" width="3440" height="1417" />
     </state>
     <state x="3512" y="23" width="1720" height="1417" key="#com.intellij.ide.util.MemberChooser/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600855544215" />
-    <state width="2966" height="449" key="GridCell.Tab.0.bottom" timestamp="1600975530517">
+    <state width="2966" height="449" key="GridCell.Tab.0.bottom" timestamp="1600976047039">
       <screen x="1792" y="23" width="3440" height="1417" />
     </state>
     <state width="2971" height="493" key="GridCell.Tab.0.bottom/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304939" />
-    <state width="2966" height="449" key="GridCell.Tab.0.bottom/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530517" />
-    <state width="2966" height="449" key="GridCell.Tab.0.center" timestamp="1600975530516">
+    <state width="2966" height="449" key="GridCell.Tab.0.bottom/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600976047039" />
+    <state width="2966" height="449" key="GridCell.Tab.0.center" timestamp="1600976047039">
       <screen x="1792" y="23" width="3440" height="1417" />
     </state>
     <state width="2971" height="493" key="GridCell.Tab.0.center/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304938" />
-    <state width="2966" height="449" key="GridCell.Tab.0.center/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530516" />
-    <state width="2966" height="449" key="GridCell.Tab.0.left" timestamp="1600975530515">
+    <state width="2966" height="449" key="GridCell.Tab.0.center/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600976047039" />
+    <state width="2966" height="449" key="GridCell.Tab.0.left" timestamp="1600976047038">
       <screen x="1792" y="23" width="3440" height="1417" />
     </state>
     <state width="2971" height="493" key="GridCell.Tab.0.left/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304938" />
-    <state width="2966" height="449" key="GridCell.Tab.0.left/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530515" />
-    <state width="2966" height="449" key="GridCell.Tab.0.right" timestamp="1600975530516">
+    <state width="2966" height="449" key="GridCell.Tab.0.left/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600976047038" />
+    <state width="2966" height="449" key="GridCell.Tab.0.right" timestamp="1600976047039">
       <screen x="1792" y="23" width="3440" height="1417" />
     </state>
     <state width="2971" height="493" key="GridCell.Tab.0.right/3429.-1057.2560.1057/1792.23.3440.1417/869.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600892304938" />
-    <state width="2966" height="449" key="GridCell.Tab.0.right/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600975530516" />
+    <state width="2966" height="449" key="GridCell.Tab.0.right/869.-1057.2560.1057/1792.23.3440.1417/3429.-1057.2560.1057/0.23.1792.1097@1792.23.3440.1417" timestamp="1600976047039" />
     <state width="2966" height="493" key="GridCell.Tab.1.bottom" timestamp="1600974546926">
       <screen x="1792" y="23" width="3440" height="1417" />
     </state>
