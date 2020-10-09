@@ -1,0 +1,89 @@
+2020/10/09 19:49:43 
+Starting Program: ((((((((((((((((((((((3+3)-x)-3)+7)-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-4)*1)+3)-2)*6)+1)/7)/3)
+2020/10/09 19:49:43 starting logger goroutine ...
+Running Topology: KRT-1
+Running Topology: HoF-1
+Running Topology: RR-1
+Running Topology: SET-1
+---------- KRT ------------
+Start Program: ((((((((((((((((((((((3+3)-x)-3)+7)-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-4)*1)+3)-2)*6)+1)/7)/3)
+
+Best Antagonist: Ant-15482
+eq: (((((((((((((((((((((((((((((((3+3)-x)-3)+7)-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-4)*1)+8)-2)*6)+1)/7)/3)*3)*8)*2)*2)*5)*8)+3)-x)*4)
+strat: [SkipD FellTreeD DivKD DeleteNonTerminalR MutateNonTerminalR AppendRandomOperationR AddKD MultKD MutateTerminalR AppendRandomOperationR]
+avf: 1.00 | avstd: NaN | bestf: 1.00
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-69427
+eq: (((((((((0*5)/1)/x)*7)/4)*5)+1)*x)-2)
+strat: [DivKD DivKD DeleteTerminalR DivKD MultKD DivKD MultKD DeleteNonTerminalR SubKD SubKD]
+avf: 0.79 | avstd: NaN | bestf: 0.79
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.84
+Protagonists Mean Fit: -0.30
+
+
+---------- RR ------------
+Start Program: ((((((((((((((((((((((3+3)-x)-3)+7)-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-4)*1)+3)-2)*6)+1)/7)/3)
+
+Best Antagonist: 	Ant-16641
+eq: (((((((((((((((((((((((((((3+3)-0)-3)+7)-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-4)*1)+3)-2)*5)+1)*7)/3)*6)*9)-1)*7)-1)
+strat: [AppendRandomOperationR MultKD DeleteTerminalR DeleteTerminalR MutateTerminalR MutateNonTerminalR SubKD AddKD DivKD MutateTerminalR]
+avf: 1.00 | avstd: NaN | bestf: 1.00
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-54130
+eq: ((((((((0/x)-4)+x)-x)-6)/7)+x)-0)
+strat: [SkipD MutateNonTerminalR DeleteNonTerminalR SubKD SkipD SkipD DivKD AppendRandomOperationR SubKD DeleteTerminalR]
+avf: 0.81 | avstd: NaN | bestf: 0.81
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.90
+Protagonists Mean Fit: -0.44
+
+
+---------- HoF ------------
+Start Program: ((((((((((((((((((((((3+3)-x)-3)+7)-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-4)*1)+3)-2)*6)+1)/7)/3)
+
+Best Antagonist: 	Ant-14123
+eq: (((((((((((((((((((((((((0-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-9)*1)+3)-2)*6)+1)/7)/3)*6)*9)-6)-x)*4)*3)*7)
+strat: [MultKD DeleteNonTerminalR AddKD SubKD SubKD FellTreeD SubKD DeleteTerminalR DivKD MultKD]
+avf: 0.97 | avstd: 0.04 | bestf: 1.00
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-114630
+eq: ((((((0-1)/x)+1)-5)+5)*2)
+strat: [AddKD AppendRandomOperationR MultKD AppendRandomOperationR SkipD AppendRandomOperationR SubKD MultKD DeleteNonTerminalR MultKD]
+avf: 0.63 | avstd: NaN | bestf: 0.63
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.95
+Protagonists Mean Fit: -0.43
+
+
+---------- SET ------------
+Start Program: ((((((((((((((((((((((3+3)-x)-3)+7)-1)*x)+1)*x)+1)*7)-8)+0)/7)/8)-4)*1)+3)-2)*6)+1)/7)/3)
+
+Best Antagonist: 	Ant-60185
+eq: ((((((((((((((((((((((0-1)*x)+3)*x)+1)*7)-8)+0)/7)/8)-4)*1)+3)-2)*6)+1)*7)/3)*6)*9)+5)+7)
+strat: [MultKD SkipD SkipD AppendRandomOperationR AppendRandomOperationR DivKD DivKD SubKD MutateNonTerminalR SubKD]
+avf: 0.98 | avstd: NaN | bestf: 0.98
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-69422
+eq: (((((0-0)/x)+2)/6)*x)
+strat: [SubKD DeleteTerminalR DeleteTerminalR SkipD MutateNonTerminalR DeleteTerminalR AppendRandomOperationR MutateNonTerminalR MutateTerminalR MultKD]
+avf: 0.59 | avstd: NaN | bestf: 0.59
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.83
+Protagonists Mean Fit: -0.49
+
+
+
+goos: darwin
+goarch: amd64
+BenchmarkMainSimulation-16    	       1	16834276518 ns/op	34710650576 B/op	63340197 allocs/op
+PASS
+ok  	command-line-arguments	16.930s

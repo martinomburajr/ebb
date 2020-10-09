@@ -1,0 +1,97 @@
+2020/10/09 19:50:35 
+Starting Program: ((((((((((((((8*8)+3)*6)-x)+3)+9)-3)/6)-5)+6)*3)*0)*2)/1)
+2020/10/09 19:50:35 starting logger goroutine ...
+Running Topology: KRT-1
+Running Topology: HoF-1
+Running Topology: RR-1
+Running Topology: SET-1
+Running Topology: KRT-2
+Running Topology: HoF-2
+Running Topology: RR-2
+Running Topology: SET-2
+Running Topology: KRT-3
+Running Topology: HoF-3
+Running Topology: RR-3
+Running Topology: SET-3
+---------- KRT ------------
+Start Program: ((((((((((((((8*8)+3)*6)-x)+3)+9)-3)/6)-5)+6)*3)*0)*2)/1)
+
+Best Antagonist: Ant-52
+eq: ((0-7)/x)
+strat: [SkipD SkipD DeleteTerminalR FellTreeD FellTreeD SkipD FellTreeD MultKD MutateNonTerminalR MutateTerminalR]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-300
+eq: 0
+strat: [DeleteTerminalR MutateNonTerminalR FellTreeD SkipD DeleteNonTerminalR DeleteTerminalR MutateNonTerminalR DeleteNonTerminalR MultKD DeleteNonTerminalR]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.13
+Protagonists Mean Fit: -0.28
+
+
+---------- RR ------------
+Start Program: ((((((((((((((8*8)+3)*6)-x)+3)+9)-3)/6)-5)+6)*3)*0)*2)/1)
+
+Best Antagonist: 	Ant-1285
+eq: ((1*4)+4)
+strat: [DeleteNonTerminalR DeleteTerminalR DivKD AppendRandomOperationR SkipD SkipD MutateTerminalR AppendRandomOperationR SkipD AddKD]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-373
+eq: 0
+strat: [MutateNonTerminalR SubKD MutateTerminalR DeleteNonTerminalR MultKD FellTreeD AppendRandomOperationR MutateTerminalR FellTreeD FellTreeD]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.19
+Protagonists Mean Fit: -0.43
+
+
+---------- HoF ------------
+Start Program: ((((((((((((((8*8)+3)*6)-x)+3)+9)-3)/6)-5)+6)*3)*0)*2)/1)
+
+Best Antagonist: 	Ant-6476
+eq: ((0+7)+x)
+strat: [SkipD DeleteTerminalR SubKD DivKD AddKD MutateNonTerminalR DeleteNonTerminalR SubKD DivKD AddKD]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-339
+eq: 0
+strat: [MultKD DeleteTerminalR MutateTerminalR MutateTerminalR FellTreeD MutateTerminalR MutateTerminalR DeleteNonTerminalR AddKD AddKD]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.19
+Protagonists Mean Fit: -0.36
+
+
+---------- SET ------------
+Start Program: ((((((((((((((8*8)+3)*6)-x)+3)+9)-3)/6)-5)+6)*3)*0)*2)/1)
+
+Best Antagonist: 	Ant-87
+eq: ((((0-5)*7)-5)+x)
+strat: [DeleteNonTerminalR AddKD MutateTerminalR MutateTerminalR DivKD MutateNonTerminalR DivKD AddKD AppendRandomOperationR AddKD]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Best Protagonist: 	Pro-288
+eq: 0
+strat: [MutateTerminalR MutateNonTerminalR SkipD SkipD MultKD MutateTerminalR DeleteNonTerminalR SkipD SubKD FellTreeD]
+avf: 1.00 | avstd: 0.00 | bestf: 1.00
+bG: 0 | age: 1
+
+Antagonists Mean Fit: -0.16
+Protagonists Mean Fit: -0.42
+
+
+
+goos: darwin
+goarch: amd64
+BenchmarkMainSimulation-16    	       1	42761152276 ns/op	80557040312 B/op	180662374 allocs/op
+PASS
+ok  	command-line-arguments	42.857s
