@@ -6,7 +6,6 @@ import (
 	"math"
 	"math/rand"
 	"strings"
-	"sync"
 )
 
 const (
@@ -17,14 +16,6 @@ const (
 type Individual struct {
 	ID      uint32
 	Program BinaryTree // The best program generated
-	// AliasID refers the ID given to temporary clones of the Individual. They will all be referenced back to the original
-	// individual when fitness and performance collation occurs.
-	AliasID uint32
-
-	Parent  *Individual
-
-	// ParentID is used mostly with KRT
-	ParentID uint32
 	Strategy []Strategy
 	Kind     int
 
@@ -45,7 +36,6 @@ type Individual struct {
 	AverageDelta     float64
 	NoOfCompetitions int
 
-	Mutex *sync.Mutex
 }
 
 // TODO switch to float32
@@ -68,14 +58,14 @@ func (i Individual) Clone(id int) Individual {
 	return i
 }
 
-// TODO switch to float32
-// Clone will perform a hard clone on every field
-func (i Individual) CloneWithParentID(id, parentID int) Individual {
-	clone := i.Clone(id)
-	clone.ParentID = uint32(parentID)
-
-	return clone
-}
+//// TODO switch to float32
+//// Clone will perform a hard clone on every field
+//func (i Individual) CloneWithParentID(id, parentID int) Individual {
+//	clone := i.Clone(id)
+//	clone.ParentID = uint32(parentID)
+//
+//	return clone
+//}
 
 // TODO - Figure out how to allocate IDs
 
@@ -184,11 +174,9 @@ func (i *Individual) ApplyProtagonistStrategy(antagonistTree BinaryTree, params 
 	i.HasAppliedStrategy = true
 	i.HasAppliedStrategy = true
 
-	if i.Parent != nil {
-		i.Parent.NoOfCompetitions++
-	} else {
-		i.NoOfCompetitions++
-	}
+
+	i.NoOfCompetitions++
+
 
 	return nil
 }
@@ -205,7 +193,6 @@ func (i Individual) CloneWithTree(ID int, tree BinaryTree) Individual {
 	copy(dstDeltas, i.Deltas)
 	copy(dstStrategy, i.Strategy)
 	copy(dstFitness, i.Fitness)
-
 
 	i.Program = tree.Clone()
 
@@ -234,7 +221,6 @@ func (i *Individual) CalculateProtagonistThresholdedFitness(params EvolutionPara
 
 	spec := params.Spec
 
-
 	for j := range spec {
 		independentXVal := spec[j].Independents['x']
 
@@ -243,7 +229,7 @@ func (i *Individual) CalculateProtagonistThresholdedFitness(params EvolutionPara
 		if isProtagonistValid {
 			dependentProtagonistVar := EvaluateMathematicalExpression(protagonist, independentXVal)
 
-			if  math.IsNaN(dependentProtagonistVar) || math.IsInf(dependentProtagonistVar, 0) {
+			if math.IsNaN(dependentProtagonistVar) || math.IsInf(dependentProtagonistVar, 0) {
 				isProtagonistValid, shouldStopAndContinue = applyDivByZeroError(independentXVal, dependentProtagonistVar)
 
 				if shouldStopAndContinue {
@@ -598,12 +584,23 @@ func (i *Individual) ToString() strings.Builder {
 		kind = "Unknown"
 	}
 
-	str := fmt.Sprintf("%s-%d\n" +
-		"eq: %s\n" +
-		"strat: %v\n" +
-		"avf: %.2f | avstd: %.2f | bestf: %.2f\n" +
+	str := fmt.Sprintf("%s-%d\n"+
+		"eq: %s\n"+
+		"strat: %v\n"+
+		"avf: %.2f | avstd: %.2f | bestf: %.2f\n"+
 		"bG: %d | age: %d\n",
 		kind, i.ID, i.Program.ToMathematicalString(), i.Strategy, i.AverageFitness, i.FitnessStdDev, i.BestFitness, i.BirthGen, i.Age)
+
+	sb.WriteString(str)
+
+	return sb
+}
+
+func (i *Individual) ToSimpleString() strings.Builder {
+	sb := strings.Builder{}
+
+	str := fmt.Sprintf("avf: %.2f | bestf: %.2f | bG: %d | age: %d",
+		i.AverageFitness, i.BestFitness, i.BirthGen, i.Age)
 
 	sb.WriteString(str)
 
@@ -620,6 +617,6 @@ func (i *Individual) Calculate() {
 	i.FitnessVariance = variance
 	i.HasCalculatedFitness = true
 	i.HasAppliedStrategy = true
-	i.Age += 1
+	//i.Age += 1
 	i.AverageDelta = deltaMean
 }

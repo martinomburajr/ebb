@@ -25,12 +25,16 @@ type Generation struct {
 	AntagonistStdDevOfAvgFitnessValues          float64
 	AntagonistVarianceOfAvgFitnessValues        float64
 	AntagonistAvgFitnessValuesOfEveryIndividual []float64
+	AntagonistsAvgAgeOfEveryIndividual          []float64
+	AntagonistsAvgBirthGenOfEveryIndividual     []float64
 
 	// ProtagonistAverage is an average of ProtagonistAvgFitnessOfEveryIndividual
-	ProtagonistAverage                     float64
-	ProtagonistStdDevOfAvgFitnessValues    float64
-	ProtagonistVarianceOfAvgFitnessValues  float64
-	ProtagonistAvgFitnessOfEveryIndividual []float64
+	ProtagonistAverage                       float64
+	ProtagonistStdDevOfAvgFitnessValues      float64
+	ProtagonistVarianceOfAvgFitnessValues    float64
+	ProtagonistAvgFitnessOfEveryIndividual   []float64
+	ProtagonistsAvgAgeOfEveryIndividual      []float64
+	ProtagonistsAvgBirthGenOfEveryIndividual []float64
 
 	engine                       *Engine
 	isComplete                   bool
@@ -39,8 +43,12 @@ type Generation struct {
 	count                        int
 
 	// Help with efficient ID allocation
-	idAllocStart  uint32
-	idAllocOffset uint32
+	idAllocStart            uint32
+	idAllocOffset           uint32
+	AntagonistsAvgAge       float64
+	AntagonistsAvgBirthGen  float64
+	ProtagonistsAvgAge      float64
+	ProtagonistsAvgBirthGen float64
 }
 
 func (g *Generation) CopyIndividuals(kind int) []Individual {
@@ -68,11 +76,11 @@ func (e *Engine) NewBatch(need uint32) IDAllocator {
 
 	e.idAllocStart = oldOffset
 	e.idAllocOffset = oldOffset + need
-	return IDAllocator{oldOffset, e.idAllocOffset}
+	return IDAllocator{oldOffset + 1, e.idAllocOffset}
 }
 
 // initializePopulation randomly creates a set of antagonists and protagonists
-func (g *Generation) InitializePopulation(params EvolutionParams) (antagonists []Individual,
+func (g *Generation) InitializePopulation(params EvolutionParams, idAlloc IDAllocator) (antagonists []Individual,
 	protagonists []Individual, err error) {
 
 	antagonists, protagonists = make([]Individual, params.EachPopulationSize), make([]Individual, params.EachPopulationSize)
@@ -80,10 +88,13 @@ func (g *Generation) InitializePopulation(params EvolutionParams) (antagonists [
 	wg := sync.WaitGroup{}
 	wg.Add(2)
 
-	go func(wg *sync.WaitGroup, params EvolutionParams, antagonists []Individual) {
+	antagonistBatch := g.engine.NewBatch(uint32(params.EachPopulationSize * 2))
+	protagonistBatch := g.engine.NewBatch(uint32(params.EachPopulationSize * 2))
+
+	go func(wg *sync.WaitGroup, params EvolutionParams, antagonists []Individual, idAlloc IDAllocator) {
 		defer wg.Done()
 
-		antagonists1, err := NewRandomIndividuals(IndividualAntagonist, params)
+		antagonists1, err := NewRandomIndividuals(IndividualAntagonist, params, idAlloc)
 		if err != nil {
 			params.ErrorChan <- err
 			return
@@ -91,12 +102,12 @@ func (g *Generation) InitializePopulation(params EvolutionParams) (antagonists [
 
 		copy(antagonists, antagonists1)
 
-	}(&wg, params, antagonists)
+	}(&wg, params, antagonists, antagonistBatch)
 
-	go func(wg *sync.WaitGroup, params EvolutionParams, protagonists []Individual) {
+	go func(wg *sync.WaitGroup, params EvolutionParams, protagonists []Individual, idAlloc IDAllocator) {
 		defer wg.Done()
 
-		protagonists1, err := NewRandomIndividuals(IndividualProtagonist, params)
+		protagonists1, err := NewRandomIndividuals(IndividualProtagonist, params, idAlloc)
 		if err != nil {
 			params.ErrorChan <- err
 			return
@@ -104,7 +115,7 @@ func (g *Generation) InitializePopulation(params EvolutionParams) (antagonists [
 
 		copy(protagonists, protagonists1)
 
-	}(&wg, params, protagonists)
+	}(&wg, params, protagonists, protagonistBatch)
 
 	wg.Wait()
 
@@ -119,8 +130,10 @@ func (g *Generation) InitializePopulation(params EvolutionParams) (antagonists [
 func (g *Generation) ApplySelection() (
 	antagonistSurvivors []Individual, protagonistSurvivors []Individual) {
 
-	antReproductionBatch := g.engine.NewBatch(uint32(g.engine.Parameters.EachPopulationSize * 3))
-	proReproductionBatch := g.engine.NewBatch(uint32(g.engine.Parameters.EachPopulationSize * 3))
+	antReproductionBatch := g.engine.NewBatch(uint32(g.engine.Parameters.EachPopulationSize * 5))
+	proReproductionBatch := g.engine.NewBatch(uint32(g.engine.Parameters.EachPopulationSize * 5))
+	antChildBatch := g.engine.NewBatch(uint32(g.engine.Parameters.EachPopulationSize * 3))
+	proChildBatch := g.engine.NewBatch(uint32(g.engine.Parameters.EachPopulationSize * 3))
 
 	antagonists := g.CopyIndividuals(IndividualAntagonist)
 	protagonists := g.CopyIndividuals(IndividualProtagonist)
@@ -132,6 +145,7 @@ func (g *Generation) ApplySelection() (
 	strategies := params.Strategies.Strategies
 	probMutation := params.Reproduction.ProbabilityOfMutation
 	errorChan := g.engine.Parameters.ErrorChan
+	survivorPercentage := g.engine.Parameters.Selection.Survivor.SurvivorPercentage
 
 	antagonistSurvivors = make([]Individual, populationSize)
 	protagonistSurvivors = make([]Individual, populationSize)
@@ -139,25 +153,25 @@ func (g *Generation) ApplySelection() (
 	wg := sync.WaitGroup{}
 	wg.Add(2)
 
-	go func(wg *sync.WaitGroup, individuals []Individual, survivors []Individual, genCount, kind, tournamentSize, populationSize int, idAlloc IDAllocator, crossoverStrategy string, strategies []Strategy, probMutation float64, errChan chan error) {
-		newIndividuals, err := applySelection(antagonists, g.count, IndividualAntagonist, tournamentSize, populationSize, antReproductionBatch, crossoverStrategy, strategies, probMutation)
+	go func(wg *sync.WaitGroup, individuals []Individual, survivors []Individual, genCount, tournamentSize, populationSize int, idAlloc, antChildBatch IDAllocator, crossoverStrategy string, strategies []Strategy, survivorPercentage, probMutation float64, errChan chan error) {
+		newIndividuals, err := applySelection(antagonists, g.count, tournamentSize, populationSize, antReproductionBatch, antChildBatch, crossoverStrategy, strategies, survivorPercentage, probMutation)
 		if err != nil {
 			errChan <- err
 		}
 
 		copy(antagonistSurvivors, newIndividuals)
 		wg.Done()
-	}(&wg, antagonists, antagonistSurvivors, g.count, IndividualAntagonist, tournamentSize, populationSize, antReproductionBatch, crossoverStrategy, strategies, probMutation, errorChan)
+	}(&wg, antagonists, antagonistSurvivors, g.count, tournamentSize, populationSize, antReproductionBatch, antChildBatch, crossoverStrategy, strategies, survivorPercentage, probMutation, errorChan)
 
-	go func(wg *sync.WaitGroup, individuals []Individual, survivors []Individual, genCount, kind, tournamentSize, populationSize int, idAlloc IDAllocator, crossoverStrategy string, strategies []Strategy, probMutation float64, errChan chan error) {
-		newIndividuals2, err := applySelection(protagonists, g.count, IndividualProtagonist, tournamentSize, populationSize, proReproductionBatch, crossoverStrategy, strategies, probMutation)
+	go func(wg *sync.WaitGroup, individuals []Individual, survivors []Individual, genCount, tournamentSize, populationSize int, idAlloc, proChildBatch IDAllocator, crossoverStrategy string, strategies []Strategy, survivorPercentage, probMutation float64, errChan chan error) {
+		newIndividuals2, err := applySelection(protagonists, g.count, tournamentSize, populationSize, proReproductionBatch, proChildBatch, crossoverStrategy, strategies, survivorPercentage, probMutation)
 		if err != nil {
 			errChan <- err
 		}
 
 		copy(protagonistSurvivors, newIndividuals2)
 		wg.Done()
-	}(&wg, protagonists, protagonistSurvivors, g.count, IndividualProtagonist, tournamentSize, populationSize, proReproductionBatch, crossoverStrategy, strategies, probMutation, errorChan)
+	}(&wg, protagonists, protagonistSurvivors, g.count, tournamentSize, populationSize, proReproductionBatch, proChildBatch, crossoverStrategy, strategies, survivorPercentage, probMutation, errorChan)
 
 	wg.Wait()
 
@@ -167,28 +181,28 @@ func (g *Generation) ApplySelection() (
 }
 
 // applySelection uses a copy of the kind of individuals to pass in
-func applySelection(individuals []Individual, genCount, kind, tournamentSize, populationSize int, idAlloc IDAllocator, crossoverStrategy string, strategies []Strategy, probMutation float64) ([]Individual, error) {
+func applySelection(individuals []Individual, genCount, tournamentSize, populationSize int, idAlloc, childBatch IDAllocator, crossoverStrategy string, strategies []Strategy, survivorPercentage, probMutation float64) ([]Individual, error) {
 	winnerParents, err := applyParentSelection(individuals, tournamentSize, idAlloc)
 	if err != nil {
 		return nil, err
 	}
 
-	antSelectedChildren, err := applyCrossover(winnerParents, genCount, kind, idAlloc, populationSize, crossoverStrategy)
+	antSelectedChildren, err := applyCrossover(winnerParents, genCount, childBatch, populationSize, crossoverStrategy)
 	if err != nil {
 		return nil, err
 	}
 
 	outgoingParents, outgoingChildren, err := applyMutation(winnerParents, antSelectedChildren, strategies, probMutation)
 
-	survivorSelection, err := applyHalfAndHalfSurvivorSelection(outgoingParents, outgoingChildren, populationSize)
+	survivorSelection, err := applyRatiodSurvivorSelection(outgoingParents, outgoingChildren, survivorPercentage, populationSize)
 
 	return survivorSelection, err
 }
 
 func (g *Generation) CleansePopulations(params EvolutionParams) {
 	populationSize := params.EachPopulationSize
-	antBatch := g.engine.NewBatch(uint32(populationSize * 2 * (g.count+1)))
-	proBatch := g.engine.NewBatch(uint32(populationSize * 2 * (g.count+1)))
+	//antBatch := g.engine.NewBatch(uint32(populationSize * 2 * (g.count+1)))
+	//proBatch := g.engine.NewBatch(uint32(populationSize * 2 * (g.count+1)))
 
 	cleanAntagonists := make([]Individual, populationSize)
 	cleanProtagonists := make([]Individual, populationSize)
@@ -196,27 +210,27 @@ func (g *Generation) CleansePopulations(params EvolutionParams) {
 	wg := sync.WaitGroup{}
 	wg.Add(2)
 
-		go func(wg *sync.WaitGroup, individualsToClean, cleanIndividuals []Individual, idAlloc IDAllocator, errChan chan error) {
-			defer wg.Done()
+	go func(wg *sync.WaitGroup, individualsToClean, cleanIndividuals []Individual, errChan chan error) {
+		defer wg.Done()
 
-			individuals	, err := CleansePopulation(individualsToClean, params.StartIndividual, idAlloc)
-			if err != nil {
-				errChan <- err
-			}
+		individuals, err := CleansePopulation(individualsToClean)
+		if err != nil {
+			errChan <- err
+		}
 
-			copy(cleanIndividuals, individuals)
-		}(&wg, g.Antagonists, cleanAntagonists, antBatch,  params.ErrorChan)
+		copy(cleanIndividuals, individuals)
+	}(&wg, g.Antagonists, cleanAntagonists, params.ErrorChan)
 
-		go func(wg *sync.WaitGroup, individualsToClean, cleanIndividuals []Individual, idAlloc IDAllocator, errChan chan error) {
-			defer wg.Done()
+	go func(wg *sync.WaitGroup, individualsToClean, cleanIndividuals []Individual, errChan chan error) {
+		defer wg.Done()
 
-			individuals, err := CleansePopulation(individualsToClean, params.StartIndividual, idAlloc)
-			if err != nil {
-				errChan <- err
-			}
+		individuals, err := CleansePopulation(individualsToClean)
+		if err != nil {
+			errChan <- err
+		}
 
-			copy(cleanIndividuals, individuals)
-		}(&wg, g.Protagonists, cleanProtagonists, proBatch,  params.ErrorChan)
+		copy(cleanIndividuals, individuals)
+	}(&wg, g.Protagonists, cleanProtagonists, params.ErrorChan)
 
 	wg.Wait()
 
@@ -228,8 +242,9 @@ func (g *Generation) CleansePopulations(params EvolutionParams) {
 // selection Strategy has been applied to the Generation.
 // These individuals are ready to be taken to either a new Generation or preferably through survivor selection in the
 // case you do not isEqual the population to grow in size.
-func (g *Generation) ApplyParentSelection(currentPopulation []Individual, idAlloc IDAllocator) ([]Individual, error) {
-	return applyParentSelection(currentPopulation, g.engine.Parameters.Selection.Parent.TournamentSize, idAlloc)
+func (g *Generation) ApplyParentSelection(currentPopulation []Individual) ([]Individual, error) {
+	idAllocator := g.engine.NewBatch(uint32(len(currentPopulation) * 2))
+	return applyParentSelection(currentPopulation, g.engine.Parameters.Selection.Parent.TournamentSize, idAllocator)
 }
 
 func applyParentSelection(currentPopulation []Individual, tournamentSize int, idAlloc IDAllocator) ([]Individual, error) {
@@ -240,10 +255,12 @@ func applyParentSelection(currentPopulation []Individual, tournamentSize int, id
 // It DOES NOT check to see if the parent selection has already been applied,
 // as in some cases evolutionary programs may choose to run without the parent selection phase.
 // The onus is on the evolutionary architect to keep this consideration in mind.
-func (g *Generation) ApplyReproduction(parents []Individual, kind int, idAlloc IDAllocator) (outgoingParents []Individual, outgoingChildren []Individual, err error) {
+func (g *Generation) ApplyReproduction(parents []Individual) (outgoingParents []Individual, outgoingChildren []Individual, err error) {
 	params := g.engine.Parameters
 
-	children, err := applyCrossover(parents, g.count, kind, idAlloc, params.EachPopulationSize, params.Reproduction.CrossoverStrategy)
+	idAllocator := g.engine.NewBatch(uint32(len(parents) * 2))
+
+	children, err := applyCrossover(parents, g.count, idAllocator, params.EachPopulationSize, params.Reproduction.CrossoverStrategy)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -251,13 +268,12 @@ func (g *Generation) ApplyReproduction(parents []Individual, kind int, idAlloc I
 	return applyMutation(parents, children, params.Strategies.Strategies, params.Reproduction.ProbabilityOfMutation)
 }
 
-func applyCrossover(incomingParents []Individual, genCount, kind int, idAlloc IDAllocator, populationSize int, crossoverStrategy string) (children []Individual, err error) {
+func applyCrossover(incomingParents []Individual, genCount int, idAlloc IDAllocator, populationSize int, crossoverStrategy string) (children []Individual, err error) {
 	children = make([]Individual, populationSize)
 
 	switch crossoverStrategy {
 	case CrossoverSinglePoint:
 		for i := 0; i < len(incomingParents); i += 2 {
-
 			newID1 := int(idAlloc.idStart) + i
 			newID2 := int(idAlloc.idStart) + i + 1
 
@@ -268,7 +284,7 @@ func applyCrossover(incomingParents []Individual, genCount, kind int, idAlloc ID
 				panic(fmt.Sprintf("Insufficient IDs allocated, hit max | curr: %d", newID2))
 			}
 
-			child1, child2, err := SinglePointCrossover(incomingParents[i], incomingParents[i+1], newID1, newID2)
+			child1, child2, err := SinglePointCrossover(&incomingParents[i], &incomingParents[i+1], newID1, newID2)
 			if err != nil {
 				return nil, err
 			}
@@ -324,7 +340,7 @@ func (g *Generation) ApplySurvivorSelection(outgoingParents []Individual,
 
 	switch g.engine.Parameters.Selection.Survivor.Type {
 	case SurvivorSelectionHalfAndHalf:
-		return HalfAndHalfSurvivorSelection(outgoingParents, children, g.engine.Parameters.EachPopulationSize)
+		return HalfAndHalfSurvivorSelection(outgoingParents, children, g.engine.Parameters.Selection.Survivor.SurvivorPercentage, g.engine.Parameters.EachPopulationSize)
 	case SurvivorSelectionParentVsChild:
 		return ParentVsChildSurvivorSelection(outgoingParents, children, g.engine.Parameters)
 	default:
@@ -339,7 +355,7 @@ func (g *Generation) ApplySurvivorSelection(outgoingParents []Individual,
 // Antagonists are by default
 // set with the StartIndividuals Program as their own
 // program.
-func NewRandomIndividuals(kind int, params EvolutionParams) ([]Individual, error) {
+func NewRandomIndividuals(kind int, params EvolutionParams, idAlloc IDAllocator) ([]Individual, error) {
 	if params.EachPopulationSize < 1 {
 		return nil, fmt.Errorf("number should at least be 1")
 	}
@@ -359,33 +375,37 @@ func NewRandomIndividuals(kind int, params EvolutionParams) ([]Individual, error
 
 		var individual Individual
 
-		clone := params.StartIndividual.Clone()
+		newID := idAlloc.idStart + uint32(i)
+
+		if newID > idAlloc.idEnd {
+			panic(fmt.Sprintf("Insufficient IDs allocated, hit max | curr: %d", newID))
+		}
 
 		if kind == IndividualAntagonist {
 			individual = Individual{
 				Kind:            kind,
-				ID:              uint32(i),
+				ID:              newID,
 				Strategy:        randomStrategies,
 				Fitness:         make([]float64, 0),
-				Program:         clone,
-				BestFitness:     math.MinInt8,
-				AverageFitness:  math.MinInt8,
-				BestDelta:       math.MinInt8,
-				FitnessVariance: math.MinInt8,
-				FitnessStdDev:   math.MinInt8,
+				Program:         nil,
+				BestFitness:     math.MinInt32,
+				AverageFitness:  math.MinInt32,
+				BestDelta:       math.MinInt32,
+				FitnessVariance: math.MinInt32,
+				FitnessStdDev:   math.MinInt32,
 			}
 		} else {
 			individual = Individual{
 				Kind:            kind,
-				ID:              uint32(i + 5000), // Different IDs for Protagonists
+				ID:              newID,
 				Strategy:        randomStrategies,
 				Fitness:         make([]float64, 0),
-				Program:         clone,
-				BestFitness:     math.MinInt8,
-				AverageFitness:  math.MinInt8,
-				BestDelta:       math.MinInt8,
-				FitnessVariance: math.MinInt8,
-				FitnessStdDev:   math.MinInt8,
+				Program:         nil,
+				BestFitness:     math.MinInt32,
+				AverageFitness:  math.MinInt32,
+				BestDelta:       math.MinInt32,
+				FitnessVariance: math.MinInt32,
+				FitnessStdDev:   math.MinInt32,
 			}
 		}
 
@@ -417,6 +437,10 @@ func (g *Generation) RunGenerationStatistics() (result GenerationResult) {
 	result.ProtagonistVariance = proVar
 	result.Correlation = correlation
 	result.Covariance = covariance
+	result.AntagonistAvgAge = g.AntagonistsAvgAge
+	result.AntagonistAvgBirthGen = g.AntagonistsAvgBirthGen
+	result.ProtagonistAvgAge = g.ProtagonistsAvgAge
+	result.ProtagonistAvgBirthGen = g.ProtagonistsAvgBirthGen
 
 	result.BestAntagonist = g.BestAntagonist()
 	result.BestProtagonist = g.BestProtagonist()
@@ -433,19 +457,29 @@ func (g *Generation) RunGenerationStatistics() (result GenerationResult) {
 func (g *Generation) UpdateStatisticalFields() {
 	for i := 0; i < len(g.Protagonists); i++ {
 		// Populate Antagonist Fitness Values
-		g.AntagonistAvgFitnessValuesOfEveryIndividual = append(g.AntagonistAvgFitnessValuesOfEveryIndividual, g.Antagonists[i].AverageFitness)
+		antagonist := g.Antagonists[i]
+		g.AntagonistAvgFitnessValuesOfEveryIndividual = append(g.AntagonistAvgFitnessValuesOfEveryIndividual, antagonist.AverageFitness)
+		g.AntagonistsAvgAgeOfEveryIndividual = append(g.AntagonistsAvgAgeOfEveryIndividual, float64(antagonist.Age))
+		g.AntagonistsAvgBirthGenOfEveryIndividual = append(g.AntagonistsAvgBirthGenOfEveryIndividual, float64(antagonist.BirthGen))
 
 		// Populate Protagonists Fitness Values
-		g.ProtagonistAvgFitnessOfEveryIndividual = append(g.ProtagonistAvgFitnessOfEveryIndividual, g.Protagonists[i].AverageFitness)
+		protagonist := g.Protagonists[i]
+		g.ProtagonistAvgFitnessOfEveryIndividual = append(g.ProtagonistAvgFitnessOfEveryIndividual, protagonist.AverageFitness)
+		g.ProtagonistsAvgAgeOfEveryIndividual = append(g.AntagonistsAvgAgeOfEveryIndividual, float64(protagonist.Age))
+		g.ProtagonistsAvgBirthGenOfEveryIndividual = append(g.AntagonistsAvgBirthGenOfEveryIndividual, float64(protagonist.BirthGen))
 	}
 
 	g.AntagonistStdDevOfAvgFitnessValues = stat.StdDev(g.AntagonistAvgFitnessValuesOfEveryIndividual, nil)
 	g.AntagonistVarianceOfAvgFitnessValues = stat.Variance(g.AntagonistAvgFitnessValuesOfEveryIndividual, nil)
 	g.AntagonistAverage = stat.Mean(g.AntagonistAvgFitnessValuesOfEveryIndividual, nil)
+	g.AntagonistsAvgAge = stat.Mean(g.AntagonistsAvgAgeOfEveryIndividual, nil)
+	g.AntagonistsAvgBirthGen = stat.Mean(g.AntagonistsAvgBirthGenOfEveryIndividual, nil)
 
 	g.ProtagonistStdDevOfAvgFitnessValues = stat.StdDev(g.ProtagonistAvgFitnessOfEveryIndividual, nil)
 	g.ProtagonistVarianceOfAvgFitnessValues = stat.Variance(g.ProtagonistAvgFitnessOfEveryIndividual, nil)
 	g.ProtagonistAverage = stat.Variance(g.ProtagonistAvgFitnessOfEveryIndividual, nil)
+	g.ProtagonistsAvgAge = stat.Mean(g.ProtagonistsAvgAgeOfEveryIndividual, nil)
+	g.ProtagonistsAvgBirthGen = stat.Mean(g.ProtagonistsAvgBirthGenOfEveryIndividual, nil)
 
 	g.Correlation = stat.Correlation(g.AntagonistAvgFitnessValuesOfEveryIndividual, g.ProtagonistAvgFitnessOfEveryIndividual, nil)
 	g.Covariance = stat.Covariance(g.AntagonistAvgFitnessValuesOfEveryIndividual, g.ProtagonistAvgFitnessOfEveryIndividual, nil)

@@ -141,7 +141,7 @@ func TestBinaryTree_ApplyOperatorOnTerminal(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.bt.ApplyOperatorOnTerminal(tt.args.operator, tt.args.terminal); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ApplyOperatorOnTerminal() = %s, wamt %s\n%s, want %s", got.ToMathematicalString(), tt.want.ToMathematicalString(),   got.ToString(), tt.want.ToString())
+				t.Errorf("ApplyOperatorOnTerminal() = %s, wamt %s\n%s, want %s", got.ToMathematicalString(), tt.want.ToMathematicalString(), got.ToString(), tt.want.ToString())
 			}
 		})
 	}

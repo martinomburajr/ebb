@@ -4,8 +4,6 @@ import (
 	"github.com/martinomburajr/ebb/app"
 	"log"
 	"math/rand"
-	"net/http"
-	_ "net/http/pprof"
 	"testing"
 	"time"
 )
@@ -13,9 +11,9 @@ import (
 func TestMainSimulation(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 
-	go func() {
-		log.Println(http.ListenAndServe("localhost:6060", nil))
-	}()
+	//go func() {
+	//	log.Println(http.ListenAndServe("localhost:6060", nil))
+	//}()
 
 	configPath := "bench_config.json"
 

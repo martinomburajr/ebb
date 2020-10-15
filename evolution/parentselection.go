@@ -2,6 +2,7 @@ package evolution
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 )
 
@@ -43,49 +44,34 @@ func TournamentSelection(population []Individual, tournamentSize int, idAlloc ID
 	newPop := make([]Individual, len(population))
 
 	for i := 0; i < len(population); i++ {
-		randSelectedIndividuals := getNRandom(population, tournamentSize)
-
-		fittest, err := tournamentSelect(randSelectedIndividuals)
-		if err != nil {
-			return nil, err
-		}
+		fittest := tournamentSelect(population, tournamentSize)
 
 		newID := int(idAlloc.idStart) + i
 
 		if uint32(newID) > idAlloc.idEnd {
 			panic(fmt.Sprintf("Insufficient IDs allocated, hit max | curr: %d", newID))
 		}
-
+		// We clone because tournament selection will at some point contain duplicate individuals, so we clone and
+		// assign a new ID to differentiate the Individual later.
 		newPop[i] = fittest.Clone(newID)
+		newPop[i].Age = newPop[i].Age + 1
 	}
 
 	return newPop, nil
 }
 
 // getNRandom selects  a random group of individiduals equivalent to the tournamentSize
-func getNRandom(population []Individual, tournamentSize int) []Individual {
-	newPop := make([]Individual, tournamentSize)
+func tournamentSelect(population []Individual, tournamentSize int) Individual {
+	bestIndividual := Individual{AverageFitness: math.MinInt8}
 
 	for i := 0; i < tournamentSize; i++ {
 		randIndex := rand.Intn(len(population))
 
-		newPop[i] = population[randIndex]
-	}
-
-	return newPop
-}
-
-//tournamentSelect returns the fittest individual in a given tournament
-func tournamentSelect(selectedIndividuals []Individual) (Individual, error) {
-	fittest := selectedIndividuals[0]
-
-	for i := range selectedIndividuals {
-		if selectedIndividuals[i].AverageFitness > fittest.AverageFitness {
-			individual := selectedIndividuals[i]
-
-			fittest = individual
+		testIndividual := population[randIndex]
+		if bestIndividual.AverageFitness < testIndividual.AverageFitness {
+			bestIndividual = testIndividual
 		}
 	}
 
-	return fittest, nil
+	return bestIndividual
 }

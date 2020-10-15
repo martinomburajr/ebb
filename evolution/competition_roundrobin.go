@@ -2,7 +2,6 @@ package evolution
 
 import (
 	"fmt"
-	"gonum.org/v1/gonum/stat"
 )
 
 type RoundRobin struct {
@@ -62,8 +61,6 @@ func (r *RoundRobin) Topology(currentGeneration Generation, params EvolutionPara
 	return currGen, nextGen, nil
 }
 
-
-
 // createTournament takes in the Generation individuals (
 // protagonists and antagonists) and creates a set of uninitialized epochs
 func (r *RoundRobin) createTournament(antagonists []Individual, protagonists []Individual) ([]RRCompetition, error) {
@@ -106,7 +103,6 @@ func (r *RoundRobin) createTournament(antagonists []Individual, protagonists []I
 	return competitions, nil
 }
 
-
 func (r *RoundRobin) RecordCompetitionResult(competition RRCompetition, antagonistFitness, protagonistFitness, antagonistDelta, protagonistDelta float64) {
 	r.CloneConsolidator.Check(competition.antagonist, antagonistFitness, antagonistDelta)
 	r.CloneConsolidator.Check(competition.protagonist, protagonistFitness, protagonistDelta)
@@ -126,7 +122,6 @@ func (r *RoundRobin) ConsolidateIndividuals() (bestAntagonists, bestProtagonists
 
 	return bestAntagonists, bestProtagonists
 }
-
 
 // TODO - If performance is bad we can use pointers to generations
 // runEpoch begins the run of a single epoch
@@ -154,40 +149,3 @@ func (r *RoundRobin) startTournament(competitions []RRCompetition, params Evolut
 	return bestAntagonists, bestProtagonists, nil
 }
 
-// Compete gives protagonist and antagonists the chance to competeAntagonists against each other. A competition involves an epoch,
-// that returns the Individuals of the epoch.
-//func (r *RoundRobin) Compete(g *Generation) error {
-//	setupEpochs, err := r.createTournament(g)
-//	if err != nil {
-//		return err
-//	}
-//
-//	// Runs the epochs and returns completed epochs that contain Fitness information within each individual.
-//	_, err = r.startTournament(g, setupEpochs)
-//	if err != nil {
-//		return err
-//	}
-//
-//	// TODO Ensure Children of Antagonists are being created, i.e different IDs during crossover
-//	// TODO use penalization when SPEc is 0
-//
-//	g.UpdateStatisticalFields()
-//
-//	return err
-//}
-
-func CoalesceFitnessStatistics(individual Individual) (fitnessToBeAppendedToGenerationAvgFitness float64) {
-	deltaMean := stat.Mean(individual.Deltas, nil)
-	mean, std := stat.MeanStdDev(individual.Fitness, nil)
-	variance := stat.Variance(individual.Fitness, nil)
-
-	individual.AverageFitness = mean
-	individual.FitnessStdDev = std
-	individual.FitnessVariance = variance
-	individual.HasCalculatedFitness = true
-	individual.HasAppliedStrategy = true
-	individual.Age += 1
-	individual.AverageDelta = deltaMean
-
-	return mean
-}

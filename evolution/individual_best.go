@@ -22,15 +22,17 @@ func (b BestIndividualMap) Check(individual *Individual, fitness float64, delta 
 			initialBestFitness = -10
 		}
 
-		// If and only if the fitness of the individual improves, then give us the important data via cloning.
+		// If and only if the fitness of the individual improves, then give us the program and set the bestfitness.
 		if initialBestFitness < fitness {
-			bi.BestClone = individual.Clone(-1)
+			bi.BestClone.Program = individual.Program.Clone()
+
 			// Store the best program, otherwise because a program is a slice, it will get modified due to the fact
 			// we are giving it a reference.
 			bi.BestClone.BestFitness = fitness
 			bi.BestClone.BestDelta = delta
 		}
 
+		bi.BestClone.NoOfCompetitions = bi.BestClone.NoOfCompetitions + 1
 		bi.BestClone.Fitness = append(bi.BestClone.Fitness, fitness)
 		bi.BestClone.Deltas = append(bi.BestClone.Deltas, delta)
 
@@ -45,6 +47,10 @@ func (b BestIndividualMap) Check(individual *Individual, fitness float64, delta 
 
 		best.BestClone.Fitness = append(best.BestClone.Fitness, fitness)
 		best.BestClone.Deltas = append(best.BestClone.Deltas, delta)
+		best.BestClone.NoOfCompetitions = individual.NoOfCompetitions
+		best.BestClone.Age = individual.Age
+		best.BestClone.BirthGen = individual.BirthGen
+
 		b[individual.ID] = best
 	}
 }
@@ -85,7 +91,6 @@ func (b BestIndividualMap) Deposit(eachPopulationSize int) (antagonists []Indivi
 	return antagonists, protagonists
 }
 
-
 // Deposit will populate the Antagonist and Protagonist fields of the given generation with the right Individual
 // information
 func (b BestIndividualMap) DepositSingle(eachPopulationSize int) (individuals []Individual) {
@@ -97,7 +102,6 @@ func (b BestIndividualMap) DepositSingle(eachPopulationSize int) (individuals []
 		bi := b[i]
 
 		individuals[counter] = bi.BestClone
-		individuals[counter].BestFitness = bi.BestClone.BestFitness
 
 		individuals[counter].Calculate()
 		individuals[counter].HasCalculatedFitness = true

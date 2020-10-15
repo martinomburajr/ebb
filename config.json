@@ -1,21 +1,27 @@
 {
   "enableParallelism": false,
-  "runs": 3,
-  "complexity": 1,
-  "outputDir": ".",
-  "outputFile": "stats/stats/",
+  "runs": 1,
+  "complexity": 2,
+  "plots": {
+    "length": 520,
+    "height": 200,
+    "outputDir": "stats/plots"
+  },
+  "stats": {
+    "outputDir": "stats/stats"
+  },
   "params": {
         "name": "selected-params",
       "idSeparation": 10000,
-        "generationCount": 50,
-        "eachPopulationSize":8,
+        "generationCount": 300,
+        "eachPopulationSize": 64,
     "minimumTopProtagonistMeanBeforeTerminate": 0.75,
     "minimumGenerationMeanBeforeTerminate": 0.6,
     "minimumNumberOfSuccessfulGenerationBeforeTerminate": 10,
     "protagonistMinGenAvgFit": 0.6,
       "topology": {
         "kRandomK": 5,
-        "SETNoOfTournaments": 20,
+        "SETNoOfTournaments": 15,
         "HOFGenerationInterval": 5
       },
         "specParam": {
@@ -34,36 +40,34 @@
           "divideByZeroPenalty": -2
         },
         "fitnessStrategy": {
-          "antagonistThresholdMultiplier": 40,
-          "protagonistThresholdMultiplier": 1.2
+          "antagonistThresholdMultiplier": 10,
+          "protagonistThresholdMultiplier": 1.1
         },
         "strategies": {
           "strategies": [
-            "DeleteNonTerminalR",
-            "DeleteTerminalR",
-            "MutateNonTerminalR",
-            "MutateTerminalR",
-            "AppendRandomOperationR",
-
-            "SkipD",
-            "FellTreeD",
-            "MultKD",
-            "AddKD",
             "SubKD",
-            "DivKD",
-
-            "MultCD",
+            "DeleteNonTerminalR",
             "AddCD",
+            "DeleteTerminalR",
+            "MultKD",
+            "SkipD",
+            "MutateNonTerminalR",
+            "FellTreeD",
             "SubCD",
+            "MutateTerminalR",
+            "MultCD",
+            "DivKD",
+            "AppendRandomOperationR",
+            "AddKD",
             "DivCD"
           ],
           "numStrategiesToUse": 15,
           "newTreeNTCount": 1
         },
         "reproduction": {
-          "crossoverStrategy": "CrossoverSinglePoint",
+          "crossoverStrategy": "CrossoverUniform",
           "crossoverPercentage": 0.4,
-          "probabilityOfMutation": 0.01
+          "probabilityOfMutation": 0.05
         },
         "selection": {
           "parentSelection": {
@@ -71,7 +75,8 @@
             "tournamentSize": 3
           },
           "survivorSelection": {
-            "type": "HalfAndHalf"
+            "type": "HalfAndHalf",
+            "survivorPercentage": 0.5
           }
         }
       }

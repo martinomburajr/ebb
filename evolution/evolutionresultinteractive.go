@@ -34,22 +34,22 @@ package evolution
 //	sb := strings.Builder{}
 //	var name string
 //	if kind == IndividualAntagonist {
-//		if e.TopAntagonistInRun == nil {
+//		if e.TopAntagonistOfAllRuns == nil {
 //			return strings.Builder{},
 //				fmt.Errorf("PrintTopIndividualSummary | cannot format as field is nil | Run analyze")
 //		}
 //		name = "ANTAGONIST"
 //		sb.WriteString(fmt.Sprintf("############### TOP %s IN ALL GENERATIONS"+" #######################\n", name))
-//		toString := e.TopAntagonistInRun.ToString()
+//		toString := e.TopAntagonistOfAllRuns.ToString()
 //		sb.WriteString(toString.String())
 //	} else if kind == IndividualProtagonist {
-//		if e.TopProtagonistInRun == nil {
+//		if e.TopProtagonistOfAllRuns == nil {
 //			return strings.Builder{},
 //				fmt.Errorf("PrintTopIndividualSummary | cannot format as field is nil | Run analyze")
 //		}
 //		name = "PROTAGONIST"
 //		sb.WriteString(fmt.Sprintf("############### TOP %s IN ALL GENERATIONS"+" #######################\n", name))
-//		toString := e.TopProtagonistInRun.ToString()
+//		toString := e.TopProtagonistOfAllRuns.ToString()
 //		sb.WriteString(toString.String())
 //	}
 //	return sb, nil
@@ -99,13 +99,13 @@ package evolution
 //
 //		switch text {
 //		case "0":
-//			strBuilder := e.TopAntagonistInRun.ToString()
+//			strBuilder := e.TopAntagonistOfAllRuns.ToString()
 //			bannerStr := banner("Top AntagonistEquation")
 //			fmt.Println(bannerStr)
 //			fmt.Println(strBuilder.String())
 //			fmt.Println()
 //		case "1":
-//			strBuilder := e.TopProtagonistInRun.ToString()
+//			strBuilder := e.TopProtagonistOfAllRuns.ToString()
 //			bannerStr := banner("Top ProtagonistEquation")
 //			fmt.Println(bannerStr)
 //			fmt.Println(strBuilder.String())

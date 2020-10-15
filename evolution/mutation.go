@@ -9,7 +9,7 @@ func Mutate(parents []Individual, children []Individual, strategies []Strategy, 
 }
 
 func applyMutation(parents, children []Individual, strategies []Strategy, paramProbOfMutation float64) (outgoingParents []Individual, outgoingChildren []Individual, err error) {
-	for i := 0; i < len(outgoingParents); i++ {
+	for i := 0; i < len(parents); i++ {
 		probabilityOfMutation := rand.Float64()
 
 		if probabilityOfMutation < paramProbOfMutation {

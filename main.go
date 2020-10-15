@@ -14,10 +14,13 @@ func main() {
 	MainSimulation("")
 }
 
+// TODO - Age of the same individual should remain even if cloned, do not delete the age
+// TODO - NoOfCompetitions
+
 func MainSimulation(configPath string) {
 	var trueConfigPath string
 
-	parseAll, config := ParseFlags()
+	parseAll, config, threads, apps := ParseFlags()
 
 	if configPath != "" {
 		trueConfigPath = configPath
@@ -25,27 +28,38 @@ func MainSimulation(configPath string) {
 		trueConfigPath = config
 	}
 
-	if parseAll {
-		log.Println("evo: parsing all...")
-		return
-	}
-
 	application, err := app.NewApplication(trueConfigPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = application.Begin()
-	if err != nil {
-		log.Fatal(err)
+	//parseAll = true
+	if parseAll {
+		log.Println("evo: parsing all...")
+
+		application.ParseAll()
+		return
 	}
+
+	numApplicationRuns := apps
+
+	ThreadPool(threads, numApplicationRuns, func(iter int) {
+		StartApplication(application, iter, err)
+	})
+	//print(threads)
+
+	//for i := 0; i < numApplicationRuns; i++ {
+	//	StartApplication(application, i, err)
+	//}
 }
 
-func ParseFlags() (parseAll bool, config string) {
+func ParseFlags() (parseAll bool, config string, threads, apps int) {
 	flag.BoolVar(&parseAll, "parseAll", false, "ParseAll begins the compaction of all data")
 	flag.StringVar(&config, "config", "config.json", "defines the path of the config")
+	flag.IntVar(&threads, "threads", 6, "The size of a given threadpool")
+	flag.IntVar(&apps, "apps", 2000, "The number of applications to run")
 
 	flag.Parse()
 
-	return parseAll, config
+	return parseAll, config, threads, apps
 }

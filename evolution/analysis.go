@@ -83,7 +83,7 @@ package evolution
 //							ProtagonistNoOComp:          bst.ProtagonistNoOfCompetitions,
 //
 //
-//							FinalAntagonist:                 bst.FinalAntagonist,
+//							FinalBestAntagonistOfAllRuns:                 bst.FinalBestAntagonistOfAllRuns,
 //							FinalAntagonistAge:              bst.FinalAntagonistAge,
 //							FinalAntagonistAverageDelta:     bst.FinalAntagonistAverageDelta,
 //							FinalAntagonistBestDelta:        bst.FinalAntagonistBestDelta,
@@ -95,7 +95,7 @@ package evolution
 //							FinalAntagonistStrategy:         bst.FinalAntagonistStrategy,
 //							FinalAntagonistNoOComp:          bst.FinalAntagonistNoOfCompetitions,
 //
-//							FinalProtagonist:                 bst.FinalProtagonist,
+//							FinalBestProtagonistOfAllRuns:                 bst.FinalBestProtagonistOfAllRuns,
 //							FinalProtagonistAge:              bst.FinalProtagonistAge,
 //							FinalProtagonistAverageDelta:     bst.FinalProtagonistAverageDelta,
 //							FinalProtagonistBestDelta:        bst.FinalProtagonistBestDelta,
@@ -380,7 +380,7 @@ package evolution
 //								ProtagonistNoOComp:          bst.ProtagonistNoOfCompetitions,
 //
 //
-//								FinalAntagonist:                 bst.FinalAntagonist,
+//								FinalBestAntagonistOfAllRuns:                 bst.FinalBestAntagonistOfAllRuns,
 //								FinalAntagonistAge:              bst.FinalAntagonistAge,
 //								FinalAntagonistAverageDelta:     bst.FinalAntagonistAverageDelta,
 //								FinalAntagonistBestDelta:        bst.FinalAntagonistBestDelta,
@@ -392,7 +392,7 @@ package evolution
 //								FinalAntagonistStrategy:         bst.FinalAntagonistStrategy,
 //								FinalAntagonistNoOComp:          bst.FinalAntagonistNoOfCompetitions,
 //
-//								FinalProtagonist:                 bst.FinalProtagonist,
+//								FinalBestProtagonistOfAllRuns:                 bst.FinalBestProtagonistOfAllRuns,
 //								FinalProtagonistAge:              bst.FinalProtagonistAge,
 //								FinalProtagonistAverageDelta:     bst.FinalProtagonistAverageDelta,
 //								FinalProtagonistBestDelta:        bst.FinalProtagonistBestDelta,
@@ -543,7 +543,7 @@ package evolution
 //								ProtagonistNoOComp:          bst.ProtagonistNoOfCompetitions,
 //
 //
-//								FinalAntagonist:                 bst.FinalAntagonist,
+//								FinalBestAntagonistOfAllRuns:                 bst.FinalBestAntagonistOfAllRuns,
 //								FinalAntagonistAge:              bst.FinalAntagonistAge,
 //								FinalAntagonistAverageDelta:     bst.FinalAntagonistAverageDelta,
 //								FinalAntagonistBestDelta:        bst.FinalAntagonistBestDelta,
@@ -555,7 +555,7 @@ package evolution
 //								FinalAntagonistStrategy:         bst.FinalAntagonistStrategy,
 //								FinalAntagonistNoOComp:          bst.FinalAntagonistNoOfCompetitions,
 //
-//								FinalProtagonist:                 bst.FinalProtagonist,
+//								FinalBestProtagonistOfAllRuns:                 bst.FinalBestProtagonistOfAllRuns,
 //								FinalProtagonistAge:              bst.FinalProtagonistAge,
 //								FinalProtagonistAverageDelta:     bst.FinalProtagonistAverageDelta,
 //								FinalProtagonistBestDelta:        bst.FinalProtagonistBestDelta,

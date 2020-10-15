@@ -2,8 +2,7 @@ package evolution
 
 import (
 	"fmt"
-	"github.com/gosuri/uiprogress"
-	"github.com/martinomburajr/masters-go/evolog"
+	"github.com/martinomburajr/ebb/evolog"
 	"gonum.org/v1/gonum/stat"
 	"runtime"
 	"strconv"
@@ -21,6 +20,8 @@ type Engine struct {
 	// data onto the GenerationResult
 	//Generations []*Generation   `json:"generations"`
 
+	Start time.Time
+
 	GenerationResults []GenerationResult `json:"generationResults"`
 	Parameters        EvolutionParams    `json:"parameters"`
 
@@ -32,8 +33,9 @@ type Engine struct {
 	idAllocStart  uint32
 	idAllocOffset uint32
 
-	ProgressBar *uiprogress.Bar
 	CurrentRun  int64
+
+	End time.Time
 }
 
 func NewEngine(params EvolutionParams) Engine {
@@ -44,8 +46,21 @@ func NewEngine(params EvolutionParams) Engine {
 		successfulGenerationsByAvg:                  0,
 		minimumTopProtagonistThreshold:              0,
 		minimumMeanProtagonistInGenerationThreshold: 0,
-		ProgressBar:                                 nil,
 	}
+}
+
+func (e *Engine) LogMessage(str string, logType int) {
+	msg := fmt.Sprintf("%s", str)
+
+	e.Parameters.LoggingChan <- evolog.Logger{Type: logType, Message: msg,
+		Timestamp: time.Now()}
+}
+
+func (e *Engine) LogTime(str string) {
+	msg := fmt.Sprintf("%s: %s", str, e.End.Sub(e.Start).String())
+
+	e.Parameters.LoggingChan <- evolog.Logger{Type: evolog.LoggerEvolution, Message: msg,
+		Timestamp: time.Now()}
 }
 
 func (e Engine) Clone() Engine {
@@ -61,7 +76,7 @@ func (e *Engine) Evolve(topology Evolver) (EvolutionResult, error) {
 	params := e.Parameters
 
 	run := strconv.FormatInt(e.CurrentRun, 10)
-	fmt.Printf("Running Topology: %s\n", topology.Name(run))
+	e.LogMessage(fmt.Sprintf("Running Topology: %s", topology.Name(run)), evolog.LoggerEvolution)
 
 	// HoF uses a non-standard evolution process, hence it carries its own Evolve method.
 	hallOfFame, isHoF := topology.(*HallOfFame)
@@ -78,41 +93,40 @@ func (e *Engine) Evolve(topology Evolver) (EvolutionResult, error) {
 
 	currGen := gen0
 	for i := 0; i < genCount; i++ {
-		//started := time.Now()
 		// 1. CLEANSE
 		currGen.CleansePopulations(params)
 
 		// 2. START
-		currGen, nextGeneration, err := topology.Topology(currGen, params)
+		currentGen, nextGeneration, err := topology.Topology(currGen, params)
 		if err != nil {
 			return EvolutionResult{}, err
 		}
 
 		// 3. EVALUATE
-		generationResult := currGen.RunGenerationStatistics()
+		generationResult := currentGen.RunGenerationStatistics()
 		e.GenerationResults[i] = generationResult
 
-		if genCount == params.GenerationsCount && params.MaxGenerations < MinAllowableGenerationsToTerminate {
-			shouldTerminateEvolution := e.EvaluateTerminationCriteria(currGen, generationResult, params)
-			if shouldTerminateEvolution {
-				//engine.ProgressBar.Incr()
-				break
-			}
-		}
-
 		if i == e.Parameters.MaxGenerations-1 {
-			//engine.ProgressBar.Incr()
 			break
 		}
 
 		currGen = nextGeneration
 
-		//engine.ProgressBar.Incr()
-
-		// 4. LOG
-		//elapsed := utils.TimeTrack(started)
-		//go WriteGenerationToLog(engine, i, elapsed)
-		//go WriteToDataFolders(engine.Parameters.FolderPercentages, i, engine.Parameters.GenerationsCount, engine.Parameters)
+		// Check if Antagonists or Protagonist have clashing IDs
+		//idMap := make(map[uint32]int)
+		//for _, ind := range currGen.Antagonists {
+		//	if idMap[ind.ID] > 1 {
+		//		panic("ID CLASH!")
+		//	}
+		//	idMap[ind.ID]++
+		//}
+		//
+		//for _, ind := range currGen.Protagonists {
+		//	if idMap[ind.ID] > 1 {
+		//		panic("ID CLASH!")
+		//	}
+		//	idMap[ind.ID]++
+		//}
 	}
 
 	evolutionResult := e.AnalyzeResults()
@@ -120,63 +134,6 @@ func (e *Engine) Evolve(topology Evolver) (EvolutionResult, error) {
 	return evolutionResult, nil
 }
 
-
-func (e *Engine) CustomEvolve(topology Evolver) (EvolutionResult, error) {
-	params := e.Parameters
-
-	run := strconv.FormatInt(e.CurrentRun, 10)
-	fmt.Printf("Running Topology: %s\n", topology.Name(run))
-
-	gen0, _, _, err := e.InitializeGenerations(params)
-	if err != nil {
-		return EvolutionResult{}, err
-	}
-
-	genCount := CalculateGenerationSize(params)
-
-	currGen := gen0
-	for i := 0; i < genCount; i++ {
-		//started := time.Now()
-		// 1. CLEANSE
-		currGen.CleansePopulations(params)
-
-		// 2. START
-		currGen, nextGeneration, err := topology.Topology(currGen, params)
-		if err != nil {
-			return EvolutionResult{}, err
-		}
-
-		// 3. EVALUATE
-		generationResult := currGen.RunGenerationStatistics()
-		e.GenerationResults[i] = generationResult
-
-		if genCount == params.GenerationsCount && params.MaxGenerations < MinAllowableGenerationsToTerminate {
-			shouldTerminateEvolution := e.EvaluateTerminationCriteria(currGen, generationResult, params)
-			if shouldTerminateEvolution {
-				//engine.ProgressBar.Incr()
-				break
-			}
-		}
-
-		if i == e.Parameters.MaxGenerations-1 {
-			//engine.ProgressBar.Incr()
-			break
-		}
-
-		currGen = nextGeneration
-
-		//engine.ProgressBar.Incr()
-
-		// 4. LOG
-		//elapsed := utils.TimeTrack(started)
-		//go WriteGenerationToLog(engine, i, elapsed)
-		//go WriteToDataFolders(engine.Parameters.FolderPercentages, i, engine.Parameters.GenerationsCount, engine.Parameters)
-	}
-
-	evolutionResult := e.AnalyzeResults()
-
-	return evolutionResult, nil
-}
 
 // EvaluateTerminationCriteria looks at the current state of the Generation and checks to see if the current
 // termination criteria have been achieved. If so it returns true, if not the evolution can move on to the next step
@@ -298,14 +255,14 @@ func (e *Engine) InitializeGenerations(params EvolutionParams) (gen0 Generation,
 		idAllocOffset:                               0,
 	}
 
-	antagonists, protagonists, err = gen0.InitializePopulation(params)
+	idAlloc := e.NewBatch(uint32(params.EachPopulationSize * 4))
+
+	antagonists, protagonists, err = gen0.InitializePopulation(params, idAlloc)
 	if err != nil {
 		return Generation{}, nil, nil, err
 	}
 
 	gen0.ID = 1
-	gen0.Antagonists = antagonists
-	gen0.Protagonists = protagonists
 
 	e.successfulGenerations = 0
 	e.successfulGenerationsByAvg = 0

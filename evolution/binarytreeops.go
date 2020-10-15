@@ -78,7 +78,7 @@ func (bt BinaryTree) ApplyOperatorOnTerminal(operator rune, terminal rune) Binar
 	newTree := make([]BinaryTreeNode, newTreeLen)
 
 	copy(newTree[1:], bt)
-	newTree[0] =  BinaryTreeNode{key:   0, value: '('}
+	newTree[0] = BinaryTreeNode{key: 0, value: '('}
 
 	if lenBT == 2 {
 		newTree[1].key = 1
@@ -95,7 +95,7 @@ func (bt BinaryTree) ApplyOperatorOnTerminal(operator rune, terminal rune) Binar
 		newTree[i].key = i
 	}
 
-	newTree[lenBT+1] = BinaryTreeNode{key: lenBT+1, value: operator}
+	newTree[lenBT+1] = BinaryTreeNode{key: lenBT + 1, value: operator}
 	newTree[lenBT+2] = BinaryTreeNode{key: lenBT + 2, value: terminal}
 	newTree[lenBT+3] = BinaryTreeNode{key: lenBT + 3, value: ')'}
 

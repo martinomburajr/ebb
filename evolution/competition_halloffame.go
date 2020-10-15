@@ -28,17 +28,23 @@ func (h *HallOfFame) ClearMap() {
 
 func (h *HallOfFame) Topology(currentGeneration Generation, params EvolutionParams) (curr Generation, nextGen Generation, err error) {
 	roundRobin := RoundRobin{Engine: h.Engine}
+	h.BestIndividualMap = NewBestIndividualMap()
 
 	currGen, nextGeneration, err := roundRobin.Topology(currentGeneration, params)
 	if err != nil {
 		return Generation{}, Generation{}, err
 	}
 
-	bestAntagonist := currentGeneration.BestAntagonist()
-	bestProtagonist := currentGeneration.BestProtagonist()
+	bestAntagonist := currGen.BestAntagonist()
+	bestProtagonist := currGen.BestProtagonist()
 
-	h.AntagonistArchive = append(h.AntagonistArchive, bestAntagonist.Clone(int(bestAntagonist.ID)+200))
-	h.ProtagonistArchive = append(h.ProtagonistArchive, bestProtagonist.Clone(int(bestProtagonist.ID)+200))
+	idAllocator := h.Engine.NewBatch(4)
+
+	newID1 := int(bestAntagonist.ID) + int(idAllocator.idStart+1)
+	newID2 := int(bestProtagonist.ID) + int(idAllocator.idStart+2)
+
+	h.AntagonistArchive = append(h.AntagonistArchive, bestAntagonist.Clone(newID1))
+	h.ProtagonistArchive = append(h.ProtagonistArchive, bestProtagonist.Clone(newID2))
 
 	return currGen, nextGeneration, nil
 }
@@ -56,7 +62,7 @@ func (h *HallOfFame) Evolve() (EvolutionResult, error) {
 
 	h.GenerationIntervals = int(engine.Parameters.Topology.HoFGenerationInterval * float64(genCount))
 
-	if h.GenerationIntervals >= int(float64(params.EachPopulationSize) * 0.1) {
+	if h.GenerationIntervals >= int(float64(params.EachPopulationSize)*0.1) {
 
 		for h.GenerationIntervals >= int(float64(params.EachPopulationSize)*0.1) {
 			if h.GenerationIntervals < MinAllowableGenerationsToTerminate {
@@ -88,7 +94,7 @@ func (h *HallOfFame) Evolve() (EvolutionResult, error) {
 			count := uint32(0)
 
 			for j := 0; j < h.GenerationIntervals; j++ {
-				antagonistClone:= h.AntagonistArchive[permAntagonist[j]].Clone(int(newBatch.idStart + count))
+				antagonistClone := h.AntagonistArchive[permAntagonist[j]].Clone(int(newBatch.idStart + count))
 				antagonistClone.Program = nil
 				count++
 
@@ -102,21 +108,21 @@ func (h *HallOfFame) Evolve() (EvolutionResult, error) {
 		}
 
 		// 2. START
-		currGen, nextGeneration, err := h.Topology(currGen, params)
+		currentGen, nextGeneration, err := h.Topology(currGen, params)
 		if err != nil {
 			return EvolutionResult{}, err
 		}
 
 		// 3. EVALUATE
-		generationResult := currGen.RunGenerationStatistics()
+		generationResult := currentGen.RunGenerationStatistics()
 		engine.GenerationResults[i] = generationResult
 
-		if genCount == params.GenerationsCount && params.MaxGenerations < MinAllowableGenerationsToTerminate {
-			shouldTerminateEvolution := engine.EvaluateTerminationCriteria(currGen, generationResult, engine.Parameters)
-			if shouldTerminateEvolution {
-				break
-			}
-		}
+		//if genCount == params.GenerationsCount && params.MaxGenerations < MinAllowableGenerationsToTerminate {
+		//	shouldTerminateEvolution := engine.EvaluateTerminationCriteria(currGen, generationResult, engine.Parameters)
+		//	if shouldTerminateEvolution {
+		//		break
+		//	}
+		//}
 
 		if i == engine.Parameters.MaxGenerations-1 {
 			break
@@ -124,12 +130,22 @@ func (h *HallOfFame) Evolve() (EvolutionResult, error) {
 
 		currGen = nextGeneration
 
-		//engine.ProgressBar.Incr()
+		// Check if Antagonists or Protagonist have clashing IDs
+		idMap := make(map[uint32]int)
+		for _, ind := range currGen.Antagonists {
+			if idMap[ind.ID] > 1 {
+				panic("ID CLASH!")
+			}
+			idMap[ind.ID]++
+		}
 
-		// 4. LOG
-		//elapsed := utils.TimeTrack(started)
-		//go WriteGenerationToLog(engine, i, elapsed)
-		//go WriteToDataFolders(engine.Parameters.FolderPercentages, i, engine.Parameters.GenerationsCount, engine.Parameters)
+		for _, ind := range currGen.Protagonists {
+			if idMap[ind.ID] > 1 {
+				panic("ID CLASH!")
+			}
+			idMap[ind.ID]++
+		}
+
 	}
 
 	evolutionResult := engine.AnalyzeResults()

@@ -1,78 +1,85 @@
 {
   "enableParallelism": false,
-  "runs": 3,
+  "runs": 1,
   "complexity": 2,
-  "outputDir": ".",
-  "outputFile": "stats/bench/bench/",
+  "plots": {
+    "length": 520,
+    "height": 200,
+    "outputDir": "stats/bench/plots"
+  },
+  "stats": {
+    "outputDir": "stats/bench/bench/"
+  },
   "params": {
-        "name": "selected-params",
-      "idSeparation": 10000,
-        "generationCount": 100,
-        "eachPopulationSize": 128,
+    "name": "selected-params",
+    "idSeparation": 10000,
+    "generationCount": 300,
+    "eachPopulationSize": 64,
     "minimumTopProtagonistMeanBeforeTerminate": 0.75,
     "minimumGenerationMeanBeforeTerminate": 0.6,
     "minimumNumberOfSuccessfulGenerationBeforeTerminate": 10,
     "protagonistMinGenAvgFit": 0.6,
-      "topology": {
-        "kRandomK": 5,
-        "SETNoOfTournaments": 20,
-        "HOFGenerationInterval": 5
+    "topology": {
+      "kRandomK": 5,
+      "SETNoOfTournaments": 15,
+      "HOFGenerationInterval": 5
+    },
+    "specParam": {
+      "range": 10,
+      "seed": 1,
+      "availableVariablesAndOperators": {
+        "constants": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        "variables": ["x"],
+        "operators": ["*", "+", "-", "/"]
       },
-        "specParam": {
-          "range": 10,
-          "seed": -5,
-          "availableVariablesAndOperators": {
-            "constants": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-            "variables": ["x"],
-            "operators": ["*", "+", "-", "/"]
-          },
-          "availableSymbolicExpressions": {
-            "variables": [120],
-            "terminals": [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
-            "nonTerminals": [42, 43, 45, 47]
-          },
-          "divideByZeroPenalty": -2
-        },
-        "fitnessStrategy": {
-          "antagonistThresholdMultiplier": 40,
-          "protagonistThresholdMultiplier": 1.2
-        },
-        "strategies": {
-          "strategies": [
-            "DeleteNonTerminalR",
-            "DeleteTerminalR",
-            "MutateNonTerminalR",
-            "MutateTerminalR",
-            "AppendRandomOperationR",
+      "availableSymbolicExpressions": {
+        "variables": [120],
+        "terminals": [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+        "nonTerminals": [42, 43, 45, 47]
+      },
+      "divideByZeroPenalty": -2
+    },
+    "fitnessStrategy": {
+      "antagonistThresholdMultiplier": 10,
+      "protagonistThresholdMultiplier": 1.2
+    },
+    "strategies": {
+      "strategies": [
+        "DeleteNonTerminalR",
+        "DeleteTerminalR",
+        "MutateNonTerminalR",
+        "MutateTerminalR",
+        "AppendRandomOperationR",
 
-            "SkipD",
-            "FellTreeD",
-            "MultKD",
-            "AddKD",
-            "SubKD",
-            "DivKD",
+        "SkipD",
+        "FellTreeD",
+        "MultKD",
+        "AddKD",
+        "SubKD",
+        "DivKD",
 
-            "MultCD",
-            "AddCD",
-            "SubCD",
-            "DivCD"
-          ],
-          "numStrategiesToUse": 15,
-          "newTreeNTCount": 1
-        },
-        "reproduction": {
-          "crossoverStrategy": "CrossoverSinglePoint",
-          "crossoverPercentage": 0.4,
-          "probabilityOfMutation": 0.01
-        },
-        "selection": {
-          "parentSelection": {
-            "type": "ParentSelectionTournament",
-            "tournamentSize": 3
-          },
-          "survivorSelection": {
-            "type": "HalfAndHalf"
-          }
-        }
+        "MultCD",
+        "AddCD",
+        "SubCD",
+        "DivCD"
+      ],
+      "numStrategiesToUse": 15,
+      "newTreeNTCount": 1
+    },
+    "reproduction": {
+      "crossoverStrategy": "CrossoverUniform",
+      "crossoverPercentage": 0.4,
+      "probabilityOfMutation": 0.1
+    },
+    "selection": {
+      "parentSelection": {
+        "type": "ParentSelectionTournament",
+        "tournamentSize": 3
+      },
+      "survivorSelection": {
+        "type": "HalfAndHalf",
+        "survivorPercentage": 0.7
       }
+    }
+  }
 }

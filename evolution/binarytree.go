@@ -436,6 +436,7 @@ func NewRandomTreeFromPolDegreeCount(polDegree int, maxAdditionalNTCount int, te
 				currXCount++
 			} else {
 				firstTerminalIndex := firstTerminalIndex(len(randomTree))
+
 				if terminalIndices[i] != firstTerminalIndex {
 					randomTree[terminalIndices[i]-1].value = '*'
 					randomTree[terminalIndices[i]].value = 'x'
@@ -459,12 +460,25 @@ func NewRandomTreeFromPolDegreeCount(polDegree int, maxAdditionalNTCount int, te
 	return randomTree, nil
 }
 
-// Sanitize swaps any explicit '/0' with '/1'
+// Sanitize swaps any explicit '/0' with '/1' it also ensures that the first and second terminal are not identical
 func (bt BinaryTree) Sanitize() BinaryTree {
 
 	for i := 0; i < len(bt)-1; i++ {
 		if bt[i].value == '/' && bt[i+1].value == '0' {
 			bt[i+1].value = '1'
+		}
+	}
+
+	if len(bt) > 1 {
+		firstTerminalIndex := bt.FirstTerminal()
+		if bt[firstTerminalIndex].value == bt[firstTerminalIndex+2].value {
+			if bt[firstTerminalIndex].value == 57 { // if 9
+				bt[firstTerminalIndex].value = 49 // Set to 1
+			} else if bt[firstTerminalIndex].value == 120 { // if x
+				bt[firstTerminalIndex].value = 49 // Set to 1
+			} else {
+				bt[firstTerminalIndex].value++
+			}
 		}
 	}
 

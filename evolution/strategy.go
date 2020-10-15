@@ -57,6 +57,51 @@ const (
 	//Strategy
 )
 
+// StratToFloat converts a given strategy to an int for numeric representation.
+func StratToFloat(strategy Strategy) float64 {
+	switch strategy {
+	case StrategyDeleteNonTerminal:
+		return 0
+	case StrategyDeleteTerminal:
+		return 1
+	case StrategyMutateNonTerminal:
+		return 2
+	case StrategyMutateTerminal:
+		return 4
+	case StrategyReplaceBranch:
+		return 5
+	case StrategyAppendRandomOperation:
+		return 5
+	case StrategySkip:
+		return 6
+	case StrategyFellTree:
+		return 7
+	case StrategyMultXD:
+		return 8
+	case StrategyAddXD:
+		return 9
+	case StrategySubXD:
+		return 10
+	case StrategyDivXD:
+		return 11
+	case StrategyMultCD:
+		return 12
+	case StrategyAddCD:
+		return 13
+	case StrategySubCD:
+		return 14
+	case StrategyDivCD:
+		return 15
+	default:
+		panic("Invalid strategy!")
+	}
+}
+
+var (
+	AllStrategies = []Strategy{StrategyDeleteNonTerminal, StrategyDeleteTerminal, StrategyMutateNonTerminal, StrategyMutateTerminal, StrategyReplaceBranch, StrategyAppendRandomOperation, StrategySkip, StrategyFellTree, StrategyMultXD, StrategyAddXD, StrategySubXD, StrategyDivXD,
+		StrategyMultCD, StrategyAddCD, StrategySubCD, StrategyDivCD}
+)
+
 // GenerateRandomStrategy creates a random Strategy list that contains some or all of the availableStrategies.
 // They are randomly selected and populated.
 func GenerateRandomStrategy(number int, availableStrategies []Strategy) []Strategy {

@@ -49,7 +49,7 @@ package evolution
 //		topAntagonistEquation, _ := topAntagonist.Program.T.ToMathematicalString()
 //
 //		csvOutput.Generational[i].AverageAntagonist = coevolutionaryAverages[i].AntagonistFitnessAverages
-//		csvOutput.Generational[i].TopAntagonistInRun = topAntagonist.AverageFitness
+//		csvOutput.Generational[i].TopAntagonistOfAllRuns = topAntagonist.AverageFitness
 //		csvOutput.Generational[i].TopAntagonistBirthGen = topAntagonist.BirthGen
 //		csvOutput.Generational[i].TopAntagonistDelta = topAntagonist.BestDelta
 //		csvOutput.Generational[i].TopAntagonistEquation = topAntagonistEquation
@@ -63,7 +63,7 @@ package evolution
 //		topProtagonistEquation, _ := topProtagonist.Program.T.ToMathematicalString()
 //
 //		csvOutput.Generational[i].AverageProtagonist = coevolutionaryAverages[i].ProtagonistFitnessAverages
-//		csvOutput.Generational[i].TopProtagonistInRun = topProtagonist.AverageFitness
+//		csvOutput.Generational[i].TopProtagonistOfAllRuns = topProtagonist.AverageFitness
 //		csvOutput.Generational[i].TopProtagonistBirthGen = topProtagonist.BirthGen
 //		csvOutput.Generational[i].TopProtagonistDelta = topProtagonist.BestDelta
 //		csvOutput.Generational[i].TopProtagonistEquation = topProtagonistEquation
@@ -77,37 +77,37 @@ package evolution
 //	topProtagonistEq, _ := topProtagonist.Program.T.ToMathematicalString()
 //	topAntagonist := e.ThoroughlySortedGenerations[0].Antagonists[0]
 //	topAntagonistEq, _ := topAntagonist.Program.T.ToMathematicalString()
-//	finalProtagonist := e.FinalProtagonist
+//	finalProtagonist := e.FinalBestProtagonistOfAllRuns
 //	finalProtagonistEq, _ := finalProtagonist.Program.T.ToMathematicalString()
-//	finalAntagonist := e.FinalAntagonist
+//	finalAntagonist := e.FinalBestAntagonistOfAllRuns
 //	finalAntagonistEq, _ := finalAntagonist.Program.T.ToMathematicalString()
 //
 //	// Epochal
 //	for i := 0; i < len(csvOutput.Epochal); i++ {
 //		csvOutput.Epochal[i].RRCompetition = i + 1
 //
-//		csvOutput.Epochal[i].TopAntagonistInRun = topAntagonist.Fitness[i]
+//		csvOutput.Epochal[i].TopAntagonistOfAllRuns = topAntagonist.Fitness[i]
 //		csvOutput.Epochal[i].TopAntagonistBirthGen = topAntagonist.BirthGen
 //		csvOutput.Epochal[i].TopAntagonistDelta = topAntagonist.BestDelta
 //		csvOutput.Epochal[i].TopAntagonistEquation = topAntagonistEq
 //		csvOutput.Epochal[i].TopAntagonistStrategy = StrategiesToString(*topAntagonist)
 //		csvOutput.Epochal[i].TopAntagonistDominantStrategy = DominantStrategy(*topAntagonist)
 //
-//		csvOutput.Epochal[i].TopProtagonistInRun = topProtagonist.Fitness[i]
+//		csvOutput.Epochal[i].TopProtagonistOfAllRuns = topProtagonist.Fitness[i]
 //		csvOutput.Epochal[i].TopProtagonistBirthGen = topProtagonist.BirthGen
 //		csvOutput.Epochal[i].TopProtagonistDelta = topProtagonist.BestDelta
 //		csvOutput.Epochal[i].TopProtagonistEquation = topProtagonistEq
 //		csvOutput.Epochal[i].TopProtagonistStrategy = StrategiesToString(*topProtagonist)
 //		csvOutput.Epochal[i].TopProtagonistDominantStrategy = DominantStrategy(*topProtagonist)
 //
-//		csvOutput.Epochal[i].FinalAntagonist = finalAntagonist.Fitness[i]
+//		csvOutput.Epochal[i].FinalBestAntagonistOfAllRuns = finalAntagonist.Fitness[i]
 //		csvOutput.Epochal[i].FinalAntagonistBirthGen = finalAntagonist.BirthGen
 //		csvOutput.Epochal[i].FinalAntagonistBestDelta = finalAntagonist.BestDelta
 //		csvOutput.Epochal[i].FinalAntagonistEquation = finalAntagonistEq
 //		csvOutput.Epochal[i].FinalAntagonistStrategy = StrategiesToString(*finalAntagonist)
 //		csvOutput.Epochal[i].FinalAntagonistDominantStrategy = DominantStrategy(*finalAntagonist)
 //
-//		csvOutput.Epochal[i].FinalProtagonist = finalProtagonist.Fitness[i]
+//		csvOutput.Epochal[i].FinalBestProtagonistOfAllRuns = finalProtagonist.Fitness[i]
 //		csvOutput.Epochal[i].FinalProtagonistBirthGen = finalProtagonist.BirthGen
 //		csvOutput.Epochal[i].FinalProtagonistBestDelta = finalProtagonist.BestDelta
 //		csvOutput.Epochal[i].FinalProtagonistEquation = finalProtagonistEq
@@ -252,8 +252,8 @@ package evolution
 //	type AveragedGenerationalStatistics struct {
 //		AverageAntagonist      float64 `csv:"avgA"`
 //		AverageProtagonist     float64 `csv:"avgP"`
-//		TopAntagonistInRun          float64 `csv:"topA"`
-//		TopProtagonistInRun         float64 `csv:"topP"`
+//		TopAntagonistOfAllRuns          float64 `csv:"topA"`
+//		TopProtagonistOfAllRuns         float64 `csv:"topP"`
 //		TopAntagonistEquation  string  `csv:"topAEquation"`
 //		TopProtagonistEquation string  `csv:"topPEquation"`
 //	}
@@ -275,14 +275,14 @@ package evolution
 //		for _, csvFile := range c.CSVOutputs {
 //			sumAverageAntagonists += csvFile.Generational[i].AverageAntagonist
 //			sumAverageProtagonists += csvFile.Generational[i].AverageProtagonist
-//			sumTopAntagonist += csvFile.Generational[i].TopAntagonistInRun
-//			sumTopProtagonist += csvFile.Generational[i].TopProtagonistInRun
+//			sumTopAntagonist += csvFile.Generational[i].TopAntagonistOfAllRuns
+//			sumTopProtagonist += csvFile.Generational[i].TopProtagonistOfAllRuns
 //		}
 //		coalesced.AveragedGenerationalStatistics[i].AverageAntagonist = sumAverageAntagonists / float64(len(
 //			c.CSVOutputs))
 //		coalesced.AveragedGenerationalStatistics[i].AverageProtagonist = sumAverageProtagonists / float64(len(c.CSVOutputs))
-//		coalesced.AveragedGenerationalStatistics[i].TopAntagonistInRun = sumTopAntagonist / float64(len(c.CSVOutputs))
-//		coalesced.AveragedGenerationalStatistics[i].TopProtagonistInRun = sumTopProtagonist / float64(len(c.CSVOutputs))
+//		coalesced.AveragedGenerationalStatistics[i].TopAntagonistOfAllRuns = sumTopAntagonist / float64(len(c.CSVOutputs))
+//		coalesced.AveragedGenerationalStatistics[i].TopProtagonistOfAllRuns = sumTopProtagonist / float64(len(c.CSVOutputs))
 //	}
 //
 //	// BEST EQUATIONS

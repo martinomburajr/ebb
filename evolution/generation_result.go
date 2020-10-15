@@ -21,9 +21,6 @@ type GenerationResult struct {
 	ProtagonistStdDev            float64
 	ProtagonistVariance          float64
 
-	AntagonistOldAge  float64
-	ProtagonistOldAge float64
-
 	AntagonistAvgAge  float64
 	ProtagonistAvgAge float64
 

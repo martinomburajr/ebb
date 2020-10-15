@@ -2,7 +2,7 @@ package evolution
 
 import (
 	"fmt"
-	"github.com/martinomburajr/masters-go/evolog"
+	"github.com/martinomburajr/ebb/evolog"
 	"strings"
 )
 
@@ -84,9 +84,9 @@ func (e EvolutionParams) Clone() EvolutionParams {
 }
 
 type Topology struct {
-	Type               string  `json:"type"`
-	KRandomK           int     `json:"kRandomK"`
-	SETNoOfTournaments int `json:"SETNoOfTournaments"`
+	Type               string `json:"type"`
+	KRandomK           int    `json:"kRandomK"`
+	SETNoOfTournaments int    `json:"SETNoOfTournaments"`
 	// HoFGenerationInterval showcases the percentage of an evolutionary cycle that old individuals should be
 	// introduced. A negative number introduces the previous winner from the old generation in every subsequent
 	// generation
@@ -119,7 +119,7 @@ func (a AvailableVariablesAndOperators) Clone() AvailableVariablesAndOperators {
 
 type AvailableSymbolicExpressions struct {
 	//Constants []SymbolicExpression
-	Variables []rune `json:"variables"`
+	Variables    []rune `json:"variables"`
 	NonTerminals []rune `json:"nonTerminals"`
 	Terminals    []rune `json:"terminals"`
 }

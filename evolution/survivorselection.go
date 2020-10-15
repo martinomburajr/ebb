@@ -1,6 +1,9 @@
 package evolution
 
-import "math/rand"
+import (
+	"math"
+	"math/rand"
+)
 
 const (
 	SurvivorSelectionParentVsChild = "ParentVsChild"
@@ -32,14 +35,14 @@ func ParentVsChildSurvivorSelection(selectedParents, selectedChildren []Individu
 }
 
 // HalfAndHalfSurvivorSelection takes the top half best parents and randomly selects children for the other half
-func HalfAndHalfSurvivorSelection(selectedParents, selectedChildren []Individual,
+func HalfAndHalfSurvivorSelection(selectedParents, selectedChildren []Individual, survivorPercentage float64,
 	populationSize int) ([]Individual, error) {
 
-	return applyHalfAndHalfSurvivorSelection(selectedParents, selectedChildren, populationSize)
+	return applyRatiodSurvivorSelection(selectedParents, selectedChildren, survivorPercentage, populationSize)
 }
 
 // HalfAndHalfSurvivorSelection takes the top half best parents and randomly selects children for the other half
-func applyHalfAndHalfSurvivorSelection(selectedParents, selectedChildren []Individual,
+func applyRatiodSurvivorSelection(selectedParents, selectedChildren []Individual, survivorPercentage float64,
 	populationSize int) ([]Individual, error) {
 	survivors := make([]Individual, populationSize)
 
@@ -48,14 +51,14 @@ func applyHalfAndHalfSurvivorSelection(selectedParents, selectedChildren []Indiv
 		return nil, err
 	}
 
-	halfPopulation := populationSize / 2
-	childIndices := rand.Perm(halfPopulation)
+	slider := int(math.Floor(float64(populationSize) * survivorPercentage))
+	childIndices := rand.Perm(slider)
 
-	for i := 0; i < halfPopulation; i++ {
+	for i := 0; i < slider; i++ {
 		survivors[i] = sortedParents[i]
 	}
-	for i := 0; i < halfPopulation; i++ {
-		survivors[i+halfPopulation] = selectedChildren[childIndices[i]]
+	for i := 0; i < populationSize-slider; i++ {
+		survivors[i+slider] = selectedChildren[childIndices[i]]
 	}
 
 	return survivors, nil

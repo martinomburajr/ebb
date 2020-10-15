@@ -8,7 +8,7 @@ import (
 )
 
 type SingleEliminationTournament struct {
-	Engine Engine
+	Engine            Engine
 	BestIndividualMap BestIndividualMap
 }
 
@@ -66,7 +66,7 @@ func (s *SingleEliminationTournament) createTournament(individuals []Individual)
 	}
 
 	rand.Shuffle(len(individuals), func(i, j int) {
-		individuals[i], individuals[j] = individuals[j],individuals[i]
+		individuals[i], individuals[j] = individuals[j], individuals[i]
 	})
 
 	numberOfCompetitions := len(individuals) / 2
@@ -75,7 +75,7 @@ func (s *SingleEliminationTournament) createTournament(individuals []Individual)
 	for i := 0; i < numberOfCompetitions; i++ {
 		bracket[i] = SETCompetition{
 			individualA: &individuals[2*i],
-			individualB:  &individuals[(2*i)+1],
+			individualB: &individuals[(2*i)+1],
 		}
 	}
 
@@ -84,7 +84,7 @@ func (s *SingleEliminationTournament) createTournament(individuals []Individual)
 
 func (s *SingleEliminationTournament) startTournamentAntagonists(tournament SETBracket, params EvolutionParams) (bestIndividual *Individual, err error) {
 	if tournament == nil {
-		return nil,  fmt.Errorf("tournament have not been initialized | tournament is nil")
+		return nil, fmt.Errorf("tournament have not been initialized | tournament is nil")
 	}
 	if len(tournament) < 1 {
 		return nil, fmt.Errorf("tournament map is empty")
@@ -97,9 +97,9 @@ func (s *SingleEliminationTournament) startTournamentAntagonists(tournament SETB
 			competition := tournament[i]
 
 			// no need to clone bestAntagonist as it is already cloned by the caller
-			individualAFitness, individualADelta, individualBFitness,  individualBDelta, err := competition.competeAntagonists(params)
+			individualAFitness, individualADelta, individualBFitness, individualBDelta, err := competition.competeAntagonists(params)
 			if err != nil {
-				return nil,  err
+				return nil, err
 			}
 
 			s.RecordCompetitionResult(competition, individualAFitness, individualBFitness, individualADelta, individualBDelta)
@@ -122,7 +122,7 @@ func (s *SingleEliminationTournament) startTournamentAntagonists(tournament SETB
 
 func (s *SingleEliminationTournament) startTournamentProtagonists(tournament SETBracket, bestAntagonist BinaryTree, params EvolutionParams) (bestIndividual *Individual, err error) {
 	if tournament == nil {
-		return nil,  fmt.Errorf("tournament have not been initialized | tournament is nil")
+		return nil, fmt.Errorf("tournament have not been initialized | tournament is nil")
 	}
 	if len(tournament) < 1 {
 		return nil, fmt.Errorf("tournament map is empty")
@@ -135,9 +135,9 @@ func (s *SingleEliminationTournament) startTournamentProtagonists(tournament SET
 			competition := tournament[i]
 
 			// no need to clone bestAntagonist as it is already cloned by the caller
-			individualAFitness, individualADelta, individualBFitness,  individualBDelta, err := competition.competeProtagonist(bestAntagonist, params)
+			individualAFitness, individualADelta, individualBFitness, individualBDelta, err := competition.competeProtagonist(bestAntagonist, params)
 			if err != nil {
-				return nil,  err
+				return nil, err
 			}
 
 			s.RecordCompetitionResult(competition, individualAFitness, individualBFitness, individualADelta, individualBDelta)
@@ -183,22 +183,22 @@ func (s *SingleEliminationTournament) antagonistTopology(numberOfTournaments int
 		//	wgAntagonist.Add(1)
 		//	defer wgAntagonist.Done()
 
-			tournamentLedger, err := s.createTournament(individuals)
-			if err != nil {
-				//params.ErrorChan <- err
-				return nil
-			}
+		tournamentLedger, err := s.createTournament(individuals)
+		if err != nil {
+			//params.ErrorChan <- err
+			return nil
+		}
 
-			topAntagonist, err := s.startTournamentAntagonists(tournamentLedger, params)
-			if err != nil {
-				//params.ErrorChan <- err
-				return nil
-			}
+		topAntagonist, err := s.startTournamentAntagonists(tournamentLedger, params)
+		if err != nil {
+			//params.ErrorChan <- err
+			return nil
+		}
 
-			// TODO - Check Error
-			//currentGeneration.Mutex.Lock()
-			fittestAntagonists[i] = topAntagonist
-			//currentGeneration.Mutex.Unlock()
+		// TODO - Check Error
+		//currentGeneration.Mutex.Lock()
+		fittestAntagonists[i] = topAntagonist
+		//currentGeneration.Mutex.Unlock()
 
 		//}(&wg, individuals, fittestAntagonists, i)
 	}
@@ -232,22 +232,22 @@ func (s *SingleEliminationTournament) protagonistTopology(numberOfTournaments in
 		//	wgAntagonist.Add(1)
 		//	defer wgAntagonist.Done()
 
-			tournamentLedger, err := s.createTournament(individuals)
-			if err != nil {
-				params.ErrorChan <- err
-				//return
-			}
+		tournamentLedger, err := s.createTournament(individuals)
+		if err != nil {
+			params.ErrorChan <- err
+			//return
+		}
 
-			topProtagonist, err := s.startTournamentProtagonists(tournamentLedger, bestAntagonist.Program.Clone(), params)
-			if err != nil {
-				params.ErrorChan <- err
-				//return
-			}
+		topProtagonist, err := s.startTournamentProtagonists(tournamentLedger, bestAntagonist.Program.Clone(), params)
+		if err != nil {
+			params.ErrorChan <- err
+			//return
+		}
 
-			// TODO - Check Error
-			//currentGeneration.Mutex.Lock()
-				fittestIndividuals[i] = topProtagonist
-			//currentGeneration.Mutex.Unlock()
+		// TODO - Check Error
+		//currentGeneration.Mutex.Lock()
+		fittestIndividuals[i] = topProtagonist
+		//currentGeneration.Mutex.Unlock()
 
 		//}(&wg, individuals, fittestIndividuals, bestAntagonist, i)
 	}
@@ -278,7 +278,7 @@ func NewBracket(individuals []*Individual) SETBracket {
 	s := make([]SETCompetition, numCompetitions)
 
 	counter := 0
-	for i := 0; i < len(individuals); i+=2 {
+	for i := 0; i < len(individuals); i += 2 {
 		s[counter].individualA = individuals[i]
 		s[counter].individualB = individuals[i+1]
 		counter++
@@ -287,7 +287,7 @@ func NewBracket(individuals []*Individual) SETBracket {
 	return s
 }
 
-func (k *SETCompetition) competeAntagonists(params EvolutionParams) (antagonistFitness,antagonistFitnessDelta, protagonistFitness,  protagonistFitnessDelta float64, err error) {
+func (k *SETCompetition) competeAntagonists(params EvolutionParams) (antagonistFitness, antagonistFitnessDelta, protagonistFitness, protagonistFitnessDelta float64, err error) {
 	inf := math.Inf(-1)
 	var individualAFitness, individualADelta, individualBFitness, individualBDelta = inf, inf, inf, inf
 
@@ -329,7 +329,7 @@ func (k *SETCompetition) competeAntagonists(params EvolutionParams) (antagonistF
 	return individualAFitness, individualADelta, individualBFitness, individualBDelta, nil
 }
 
-func (k *SETCompetition) competeProtagonist(bestAntagonistTree BinaryTree, params EvolutionParams) (antagonistFitness, antagonistFitnessDelta, protagonistFitness,  protagonistFitnessDelta float64, err error) {
+func (k *SETCompetition) competeProtagonist(bestAntagonistTree BinaryTree, params EvolutionParams) (antagonistFitness, antagonistFitnessDelta, protagonistFitness, protagonistFitnessDelta float64, err error) {
 	inf := math.Inf(-1)
 	var individualAFitness, individualADelta, individualBFitness, individualBDelta = inf, inf, inf, inf
 

@@ -6,7 +6,7 @@ import (
 )
 
 type KRandom struct {
-	Engine             Engine
+	Engine            Engine
 	BestIndividualMap BestIndividualMap
 }
 
@@ -28,14 +28,14 @@ func (k *KRandom) Topology(currentGeneration Generation, params EvolutionParams)
 		return Generation{}, Generation{}, err
 	}
 
-	bestAntagonists, bestProtagonists, err := k.startTournament(tournamentLedger, params)
+	bestClonedAntagonists, bestClonedProtagonists, err := k.startTournament(tournamentLedger, params)
 	if err != nil {
 		return Generation{}, Generation{}, err
 	}
 
 	// Generation Individuals will already have been set in startTournament over here.
-	currentGeneration.Antagonists = bestAntagonists
-	currentGeneration.Protagonists = bestProtagonists
+	currentGeneration.Antagonists = bestClonedAntagonists
+	currentGeneration.Protagonists = bestClonedProtagonists
 
 	currentGeneration.UpdateStatisticalFields()
 
@@ -95,7 +95,7 @@ type KRandomCompetitions struct {
 }
 
 type Competition struct {
-	id uint32
+	id          uint32
 	protagonist *Individual
 	antagonist  *Individual
 }
@@ -114,15 +114,6 @@ func (k *Competition) compete(params EvolutionParams) (antagonistFitness, protag
 	}
 
 	antagonistFitness, protagonistFitness, antagonistFitnessDelta, protagonistFitnessDelta = ThresholdedRatioFitness(params.Spec, k.antagonist.Program, k.protagonist.Program)
-
-	// TODO - PUNISH DIVISIONS BY ZERO!
-	if math.IsNaN(antagonistFitness) {
-		print()
-	}
-
-	if math.IsNaN(protagonistFitness) {
-		print()
-	}
 
 	return antagonistFitness, protagonistFitness, antagonistFitnessDelta, protagonistFitnessDelta, err
 }

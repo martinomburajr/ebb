@@ -85,7 +85,7 @@ func thresholdedRatioFitness(spec SpecMulti, antagonist, protagonist BinaryTree)
 				diff := spec[i].Dependent - dependentProtagonistVar
 				if math.IsNaN(diff) || math.IsInf(diff, 0) {
 				} else {
-					deltaProtagonist +=  diff * diff
+					deltaProtagonist += diff * diff
 				}
 			}
 		}
@@ -110,14 +110,14 @@ func thresholdedRatioFitness(spec SpecMulti, antagonist, protagonist BinaryTree)
 	return antagonistFitness, protagonistFitness, antagonistFitnessError, protagonistFitnessError
 }
 
-func deliberateAntagonistFitness(specLen float64, deltaAntagonist float64,  deltaAntagonistThreshold float64, isAntagonistValid bool, fitnessPenalization float64) (fitness float64, delta float64) {
+func deliberateAntagonistFitness(specLen float64, deltaAntagonist float64, deltaAntagonistThreshold float64, isAntagonistValid bool, fitnessPenalization float64) (fitness float64, delta float64) {
 	badDeltaAntagonist := deltaAntagonistThreshold - 1
 
 	deltaAntagonist = math.Sqrt(deltaAntagonist / specLen)
 	deltaAntagonistThreshold = math.Sqrt(deltaAntagonistThreshold / specLen)
 
-	if !isAntagonistValid  {
-		return fitnessPenalization,  badDeltaAntagonist
+	if !isAntagonistValid {
+		return fitnessPenalization, badDeltaAntagonist
 	}
 
 	//antagonists
@@ -126,14 +126,14 @@ func deliberateAntagonistFitness(specLen float64, deltaAntagonist float64,  delt
 	return fitness, deltaAntagonist
 }
 
-func deliberateProtagonistFitness(specLen float64, deltaProtagonist float64,  deltaProtagonistThreshold float64, isProtagonistValid bool, fitnessPenalization float64) (fitness float64, delta float64) {
+func deliberateProtagonistFitness(specLen float64, deltaProtagonist float64, deltaProtagonistThreshold float64, isProtagonistValid bool, fitnessPenalization float64) (fitness float64, delta float64) {
 	badDeltaProtagonist := deltaProtagonistThreshold - 1
 
 	deltaProtagonist = math.Sqrt(deltaProtagonist / specLen)
 	deltaProtagonistThreshold = math.Sqrt(deltaProtagonistThreshold / specLen)
 
-	if !isProtagonistValid  {
-		return fitnessPenalization,  badDeltaProtagonist
+	if !isProtagonistValid {
+		return fitnessPenalization, badDeltaProtagonist
 	}
 
 	//antagonists
@@ -142,104 +142,6 @@ func deliberateProtagonistFitness(specLen float64, deltaProtagonist float64,  de
 	return fitness, deltaProtagonist
 }
 
-func deliberateFitness(specLen float64, deltaAntagonist float64, deltaProtagonist float64, deltaAntagonistThreshold float64, deltaProtagonistThreshold float64, isProtagonistValid bool, isAntagonistValid bool, fitnessPenalization float64, antagonistFitness float64, protagonistFitness float64) (float64, float64, float64, float64) {
-	// Calculate the worst deltaValue possible for each individual such that it obtains -1
-	// TODO - Keep in mind that badDeltaProtagonist might become a very small number in some situations. If there is an
-	// explicit divByZero, this might bring a low badDeltaProtagonist value
-	badDeltaAntagonist := deltaAntagonistThreshold - 1
-	badDeltaProtagonist := badDeltaAntagonist
-
-	deltaAntagonist = math.Sqrt(deltaAntagonist / specLen)
-	deltaProtagonist = math.Sqrt(deltaProtagonist / specLen)
-	deltaAntagonistThreshold = math.Sqrt(deltaAntagonistThreshold / specLen)
-	deltaProtagonistThreshold = math.Sqrt(deltaProtagonistThreshold / specLen)
-
-	if !isAntagonistValid && !isProtagonistValid {
-		return fitnessPenalization, fitnessPenalization, badDeltaAntagonist, badDeltaProtagonist
-	}
-
-	if isAntagonistValid && !isProtagonistValid {
-
-		if deltaAntagonist >= deltaAntagonistThreshold { // good thing
-
-			if deltaAntagonist == 0 { // This is to punish deltaAntagonist for coalescing near the spec
-				antagonistFitness = -1
-
-			} else {
-				// Award fitness if it did not cluster around the spec
-				antagonistFitness = (deltaAntagonist - deltaAntagonistThreshold) / deltaAntagonist
-			}
-
-		} else {
-			antagonistFitness = -1 * ((deltaAntagonistThreshold - deltaAntagonist) / deltaAntagonistThreshold)
-		}
-
-		protagonistFitness = fitnessPenalization
-		deltaProtagonist = badDeltaProtagonist
-
-		return antagonistFitness, protagonistFitness, deltaAntagonist, deltaProtagonist
-	}
-
-	if !isAntagonistValid && isProtagonistValid {
-
-		if deltaProtagonist <= deltaProtagonistThreshold {
-			if deltaProtagonist == 0 {
-				protagonistFitness = 1
-			} else {
-				protagonistFitness = (deltaProtagonistThreshold - deltaProtagonist) / deltaProtagonistThreshold
-			}
-
-		} else {
-			protagonistFitness = -1 * ((deltaProtagonist - deltaProtagonistThreshold) / deltaProtagonist)
-			//protagonistFitness = -1 * (deltaProtagonist / deltaAntagonist)
-		}
-		antagonistFitness = fitnessPenalization
-		deltaAntagonist = badDeltaAntagonist
-
-		return antagonistFitness, protagonistFitness, deltaAntagonist, deltaProtagonist
-	}
-
-	//antagonists
-	antagonistFitness = assignHealthyAntagonistFitness(deltaAntagonist, deltaAntagonistThreshold)
-
-	//protagonist
-	protagonistFitness = assignHealthyProtagonistFitness(deltaProtagonist, deltaProtagonistThreshold)
-
-	return antagonistFitness, protagonistFitness, deltaAntagonist, deltaProtagonist
-}
-
-func checkAntNANStatus(deltaAntagonist float64) {
-	if math.IsNaN(deltaAntagonist) {
-		panic("deltaAntagonist is NAN")
-	}
-
-	if math.IsInf(deltaAntagonist, 1) {
-		panic("deltaAntagonist is +INF")
-	}
-
-	if math.IsInf(deltaAntagonist, -1) {
-		panic("deltaAntagonist is -INF")
-	}
-}
-
-func checkProNANStatus(deltaProtagonist float64) {
-	if math.IsNaN(deltaProtagonist) {
-		panic("deltaProtagonist is NAN")
-	}
-
-	if math.IsInf(deltaProtagonist, 1) {
-		panic("deltaProtagonist is +INF")
-	}
-
-	if math.IsInf(deltaProtagonist, -1) {
-		panic("deltaProtagonist is -INF")
-	}
-}
-
-func checkAllNANStatus(deltaAntagonist, deltaProtagonist float64) {
-	checkAntNANStatus(deltaAntagonist)
-	checkProNANStatus(deltaProtagonist)
-}
 
 // assignHealthyAntagonistFitness assigns fitness only if the antagonist is deemed valid
 func assignHealthyAntagonistFitness(deltaAntagonist float64, deltaAntagonistThreshold float64) float64 {
@@ -302,37 +204,6 @@ func applyDivByZeroError(independentXVal float64, dependentVar float64) (isIndiv
 
 		return isIndividualValid, shouldStopAndContinue
 	}
-}
-
-// RMSE (Root Mean Squared Error) Root Mean Square Error (RMSE) is the standard deviation of the residuals
-// (prediction errors). Residuals are a measure of how far from the regression line data points are;
-// RMSE is a measure of how spread out these residuals are. In other words,
-// it tells you how concentrated the data is around the line of best fit.
-// Root mean square error is commonly used in climatology,
-// forecasting, and regression analysis to verify experimental results.
-func RMSE(forecast, observed []float64) float64 {
-	size := len(observed)
-
-	sumDiffSquared := 0.0
-	for i := 0; i < size; i++ {
-		diff := forecast[i] - observed[i]
-		diffSquared := diff * diff
-		sumDiffSquared += diffSquared
-	}
-
-	normalized := sumDiffSquared / float64(size)
-
-	return math.Sqrt(normalized)
-}
-
-// generateExpressions returns a set of mathematical expressions of the antagonist and protagonist trees.
-func generateExpressions(antagonist, protagonist BinaryTree) (antagonistExpression, protagonistExpression string,
-	err error) {
-	antagonistMathematicalExpression := antagonist.ToMathematicalString()
-
-	protagonistMathematicalExpression := protagonist.ToMathematicalString()
-
-	return antagonistMathematicalExpression, protagonistMathematicalExpression, nil
 }
 
 // calculateDelta calculates the absolute value between the truth and the supplied value
