@@ -1,21 +1,78 @@
 package evolution
 
-
 ///////////// NEW
 type CSVStrat struct {
-
-	Num int  `csv:"num"`
+	Num          int    `csv:"num"`
 	KRTTopAStrat string `csv:"KRTTopAStratIS"`
 	HOFTopAStrat string `csv:"HOFTopAStratIS"`
-	RRTopAStrat string `csv:"RRTopAStratIS"`
+	RRTopAStrat  string `csv:"RRTopAStratIS"`
 	SETTopAStrat string `csv:"SETTopAStratIS"`
 
 	KRTTopPStrat string `csv:"KRTTopPStratIS"`
 	HOFTopPStrat string `csv:"HOFTopPStratIS"`
-	RRTopPStrat string `csv:"RRTopPStratIS"`
+	RRTopPStrat  string `csv:"RRTopPStratIS"`
 	SETTopPStrat string `csv:"SETTopPStratIS"`
 }
 
+type CSVStratHybrid struct {
+	Num          int    `csv:"num"`
+
+	SpecEquation    string `csv:"specEquation"`
+	SpecEquationLen int    `csv:"specEquationLen"`
+	IVarCount       int    `csv:"iVarCount"`
+	PolDegree       int    `csv:"polDeg"`
+
+	KRTTopAEquation          string `csv:"KRTTopAEquationIS"`
+	HoFTopAEquation          string `csv:"HOFTopAEquationIS"`
+	RRTopAEquation           string `csv:"RRTopAEquationIS"`
+	SETTopAEquation          string `csv:"SETTopAEquationIS"`
+
+	KRTTopPEquation          string `csv:"KRTTopPEquationIS"`
+	HoFTopPEquation          string `csv:"HOFTopPEquationIS"`
+	RRTopPEquation           string `csv:"RRTopPEquationIS"`
+	SETTopPEquation          string `csv:"SETTopPEquationIS"`
+
+	KRTTopAEquationPolDegree int    `csv:"KRTTopAEquationPDIS"`
+	HoFTopAEquationPolDegree int    `csv:"HoFTopAEquationPDIS"`
+	RRTopAEquationPolDegree  int    `csv:"RRTopAEquationPDIS"`
+	SETTopAEquationPolDegree int    `csv:"SETTopAEquationPDIS"`
+
+	KRTTopPEquationPolDegree int    `csv:"KRTTopPEquationPDIS"`
+	HoFTopPEquationPolDegree int    `csv:"HoFTopPEquationPDIS"`
+	RRTopPEquationPolDegree  int    `csv:"RRTopPEquationPDIS"`
+	SETTopPEquationPolDegree int    `csv:"SETTopPEquationPDIS"`
+
+	KRTTopAntagonistBestFitnessInSim float64 `csv:"KRTTopABestFitIS"`
+	HoFTopAntagonistBestFitnessInSim float64 `csv:"HoFTopABestFitIS"`
+	RRTTopAntagonistBestFitnessInSim float64 `csv:"RRTTopABestFitIS"`
+	SETTopAntagonistBestFitnessInSim float64 `csv:"SETTopABestFitIS"`
+
+	KRTTopProtagonistBestFitnessInSim float64 `csv:"KRTTopPBestFitIS"`
+	HoFTopProtagonistBestFitnessInSim float64 `csv:"HoFTopPBestFitIS"`
+	RRTTopProtagonistBestFitnessInSim float64 `csv:"RRTTopPBestFitIS"`
+	SETTopProtagonistBestFitnessInSim float64 `csv:"SETTopPBestFitIS"`
+
+	KRTTopAStrat string `csv:"KRTTopAStratIS"`
+	HOFTopAStrat string `csv:"HOFTopAStratIS"`
+	RRTopAStrat  string `csv:"RRTopAStratIS"`
+	SETTopAStrat string `csv:"SETTopAStratIS"`
+
+	KRTTopPStrat string `csv:"KRTTopPStratIS"`
+	HOFTopPStrat string `csv:"HOFTopPStratIS"`
+	RRTopPStrat  string `csv:"RRTopPStratIS"`
+	SETTopPStrat string `csv:"SETTopPStratIS"`
+
+	KRTTopAStratDom string `csv:"KRTTopAStratDomIS"`
+	HOFTopAStratDom string `csv:"HOFTopAStratDomIS"`
+	RRTopAStratDom  string `csv:"RRTopAStratDomIS"`
+	SETTopAStratDom string `csv:"SETTopAStratDomIS"`
+
+	KRTTopPStratDom string `csv:"KRTTopPStratDomIS"`
+	HOFTopPStratDom string `csv:"HOFTopPStratDomIS"`
+	RRTopPStratDom  string `csv:"RRTopPStratDomIS"`
+	SETTopPStratDom string `csv:"SETTopPStratDomIS"`
+
+}
 
 type CSVSim struct {
 	SpecEquation    string `csv:"specEquation"`
@@ -24,22 +81,25 @@ type CSVSim struct {
 	PolDegree       int    `csv:"polDeg"`
 
 	KRTTopAEquation          string `csv:"KRTTopAEquationIS"`
-	KRTTopAEquationPolDegree int    `csv:"KRTTopAEquationPDIS"`
 	HoFTopAEquation          string `csv:"HOFTopAEquationIS"`
-	HoFTopAEquationPolDegree int    `csv:"HoFTopAEquationPDIS"`
 	RRTopAEquation           string `csv:"RRTopAEquationIS"`
-	RRTopAEquationPolDegree  int    `csv:"RRTopAEquationPDIS"`
 	SETTopAEquation          string `csv:"SETTopAEquationIS"`
-	SETTopAEquationPolDegree int    `csv:"SETTopAEquationPDIS"`
 
 	KRTTopPEquation          string `csv:"KRTTopPEquationIS"`
-	KRTTopPEquationPolDegree int    `csv:"KRTTopPEquationPDIS"`
 	HoFTopPEquation          string `csv:"HOFTopPEquationIS"`
-	HoFTopPEquationPolDegree int    `csv:"HoFTopPEquationPDIS"`
 	RRTopPEquation           string `csv:"RRTopPEquationIS"`
-	RRTopPEquationPolDegree  int    `csv:"RRTopPEquationPDIS"`
 	SETTopPEquation          string `csv:"SETTopPEquationIS"`
+
+	KRTTopAEquationPolDegree int    `csv:"KRTTopAEquationPDIS"`
+	HoFTopAEquationPolDegree int    `csv:"HoFTopAEquationPDIS"`
+	RRTopAEquationPolDegree  int    `csv:"RRTopAEquationPDIS"`
+	SETTopAEquationPolDegree int    `csv:"SETTopAEquationPDIS"`
+
+	KRTTopPEquationPolDegree int    `csv:"KRTTopPEquationPDIS"`
+	HoFTopPEquationPolDegree int    `csv:"HoFTopPEquationPDIS"`
+	RRTopPEquationPolDegree  int    `csv:"RRTopPEquationPDIS"`
 	SETTopPEquationPolDegree int    `csv:"SETTopPEquationPDIS"`
+
 
 	KRTTopAntagonistBestFitnessInSim float64 `csv:"KRTTopABestFitIS"`
 	HoFTopAntagonistBestFitnessInSim float64 `csv:"HoFTopABestFitIS"`
@@ -81,18 +141,6 @@ type CSVSim struct {
 	RRTTopProtagonistNoCompetitionsInSim int `csv:"RRTTopPNoCIS"`
 	SETTopProtagonistNoCompetitionsInSim int `csv:"SETTopPNoCIS"`
 
-	KRTTopAntagonistStrategyInSim string `csv:"KRTTopAStratIS"`
-	HoFTopAntagonistStrategyInSim string `csv:"HoFTopAStratIS"`
-	RRTTopAntagonistStrategyInSim string `csv:"RRTTopAStratIS"`
-	SETTopAntagonistStrategyInSim string `csv:"SETTopAStratIS"`
-
-	KRTTopProtagonistStrategyInSim string `csv:"KRTTopPStratIS"`
-	HoFTopProtagonistStrategyInSim string `csv:"HoFTopPStratIS"`
-	RRTTopProtagonistStrategyInSim string `csv:"RRTTopPStratIS"`
-	SETTopProtagonistStrategyInSim string `csv:"SETTopPStratIS"`
-
-	_ string `csv:"top-gen-spacer"`
-
 	KRTAntagonistsAvgAgeInSim float64 `csv:"KRTAAvgAgeIS"`
 	HoFAntagonistsAvgAgeInSim float64 `csv:"HOFAAvgAgeIS"`
 	RRTAntagonistsAvgAgeInSim float64 `csv:"RRAAvgAgeIS"`
@@ -103,17 +151,6 @@ type CSVSim struct {
 	RRTProtagonistsAvgAgeInSim float64 `csv:"RRPAvgAgeIS"`
 	SETProtagonistsAvgAgeInSim float64 `csv:"SETPAvgAgeIS"`
 
-	KRTAntagonistsAvgBirthGenInSim float64 `csv:"KRTAAvgBirthGenIS"`
-	HoFAntagonistsAvgBirthGenInSim float64 `csv:"HOFAAvgBirthGenIS"`
-	RRTAntagonistsAvgBirthGenInSim float64 `csv:"RRAAvgBirthGenIS"`
-	SETAntagonistsAvgBirthGenInSim float64 `csv:"SETAAvgBirthGenIS"`
-
-	KRTProtagonistsAvgBirthGenInSim float64 `csv:"KRTPAvgBirthGenIS"`
-	HoFProtagonistsAvgBirthGenInSim float64 `csv:"HOFPAvgBirthGenIS"`
-	RRTProtagonistsAvgBirthGenInSim float64 `csv:"RRPAvgBirthGenIS"`
-	SETProtagonistsAvgBirthGenInSim float64 `csv:"SETPAvgBirthGenIS"`
-
-	// Mean of all antagonists in the generation generations
 	KRTAntagonistsMeanInSim float64 `csv:"KRTAMeanIS"`
 	HoFAntagonistsMeanInSim float64 `csv:"HOFAMeanIS"`
 	RRAntagonistsMeanInSim  float64 `csv:"RRAMeanIS"`
@@ -123,6 +160,16 @@ type CSVSim struct {
 	HoFProtagonistsMeanInSim float64 `csv:"HOFPMeanIS"`
 	RRProtagonistsMeanInSim  float64 `csv:"RRPMeanIS"`
 	SETProtagonistsMeanInSim float64 `csv:"SETPMeanIS"`
+
+	KRTAntagonistsAvgBirthGenInSim float64 `csv:"KRTAAvgBirthGenIS"`
+	HoFAntagonistsAvgBirthGenInSim float64 `csv:"HOFAAvgBirthGenIS"`
+	RRTAntagonistsAvgBirthGenInSim float64 `csv:"RRAAvgBirthGenIS"`
+	SETAntagonistsAvgBirthGenInSim float64 `csv:"SETAAvgBirthGenIS"`
+
+	KRTProtagonistsAvgBirthGenInSim float64 `csv:"KRTPAvgBirthGenIS"`
+	HoFProtagonistsAvgBirthGenInSim float64 `csv:"HOFPAvgBirthGenIS"`
+	RRTProtagonistsAvgBirthGenInSim float64 `csv:"RRPAvgBirthGenIS"`
+	SETProtagonistsAvgBirthGenInSim float64 `csv:"SETPAvgBirthGenIS"`
 
 	// TopIndividualStdDevs
 	KRTAntagonistStdDevInSim float64 `csv:"KRTAStdIS"`
@@ -145,6 +192,75 @@ type CSVSim struct {
 	HoFProtagonistVarInSim float64 `csv:"HOFPVarIS"`
 	RRProtagonistVarInSim  float64 `csv:"RRPVarIS"`
 	SETProtagonistVarInSim float64 `csv:"SETPVarIS"`
+
+	KRTTopAntagonistStrategyInSim string `csv:"KRTTopAStratIS"`
+	HoFTopAntagonistStrategyInSim string `csv:"HoFTopAStratIS"`
+	RRTTopAntagonistStrategyInSim string `csv:"RRTTopAStratIS"`
+	SETTopAntagonistStrategyInSim string `csv:"SETTopAStratIS"`
+
+	KRTTopProtagonistStrategyInSim string `csv:"KRTTopPStratIS"`
+	HoFTopProtagonistStrategyInSim string `csv:"HoFTopPStratIS"`
+	RRTTopProtagonistStrategyInSim string `csv:"RRTTopPStratIS"`
+	SETTopProtagonistStrategyInSim string `csv:"SETTopPStratIS"`
+
+}
+
+type CSVSimTopologyAware struct {
+	SpecEquation    string  `csv:"specEquation"`
+	SpecEquationLen int     `csv:"specEquationLen"`
+	IVarCount       int     `csv:"iVarCount"`
+	PolDegree       int     `csv:"polDeg"`
+	Topology        string  `csv:"topology"`
+	TopologyParam   float64 `csv:"topologyParam"`
+
+	TopAEquation          string `csv:"TopAEquationIS"`
+	TopAEquationPolDegree int    `csv:"TopAEquationPDIS"`
+
+	TopPEquation          string `csv:"TopPEquationIS"`
+	TopPEquationPolDegree int    `csv:"TopPEquationPDIS"`
+
+	TopAntagonistBestFitnessInSim float64 `csv:"TopABestFitIS"`
+
+	TopProtagonistBestFitnessInSim float64 `csv:"TopPBestFitIS"`
+
+	TopAntagonistBirthGenInSim int `csv:"TopABirthGenIS"`
+
+	TopProtagonistBirthGenInSim int `csv:"TopPBirthGenIS"`
+
+	TopAntagonistAgeInSim int `csv:"TopAAgeIS"`
+
+	TopProtagonistAgeInSim int `csv:"TopPAgeIS"`
+
+	TopAntagonistNoCompetitionsInSim int `csv:"TopANoCIS"`
+
+	TopProtagonistNoCompetitionsInSim int `csv:"TopPNoCIS"`
+
+	TopAntagonistStrategyInSim string `csv:"TopAStratIS"`
+
+	TopProtagonistStrategyInSim string `csv:"TopPStratIS"`
+
+	AntagonistsAvgAgeInSim float64 `csv:"AAvgAgeIS"`
+
+	ProtagonistsAvgAgeInSim float64 `csv:"PAvgAgeIS"`
+
+	AntagonistsAvgBirthGenInSim float64 `csv:"AAvgBirthGenIS"`
+
+	ProtagonistsAvgBirthGenInSim float64 `csv:"PAvgBirthGenIS"`
+
+	// Mean of all antagonists in the generation generations
+	AntagonistsMeanInSim float64 `csv:"AMeanIS"`
+
+	ProtagonistsMeanInSim float64 `csv:"PMeanIS"`
+
+	// TopIndividualStdDevs
+	AntagonistStdDevInSim float64 `csv:"AStdIS"`
+
+	ProtagonistStdDevInSim float64 `csv:"PStdIS"`
+
+	// Variance of Individuals
+	AntagonistVarInSim float64 `csv:"AVarIS"`
+
+	ProtagonistVarInSim float64 `csv:"PVarIS"`
 }
 
 type CSVAvgGenerationsCombinedAcrossRuns struct {
@@ -273,9 +389,9 @@ type CSVAvgGenerationsCombinedAcrossRuns struct {
 	SETTopProtagonistsAvgBirthGenInSim float64 `csv:"SETTopPAvgBirthGenIS"`
 
 	KRTTopAntagonistNoCompetitionsInSim int `csv:"KRTTopAntagonistNoCIS"`
-	HoFTopAntagonistNoCompetitionsInSim  int  `csv:"HOFTopAntagonistNoCIS"`
-	RRTTopAntagonistNoCompetitionsInSim  int `csv:"RRTopAntagonistNoCIS"`
-	SETTopAntagonistNoCompetitionsInSim  int `csv:"SETTopAntagonistNoCIS"`
+	HoFTopAntagonistNoCompetitionsInSim int `csv:"HOFTopAntagonistNoCIS"`
+	RRTTopAntagonistNoCompetitionsInSim int `csv:"RRTopAntagonistNoCIS"`
+	SETTopAntagonistNoCompetitionsInSim int `csv:"SETTopAntagonistNoCIS"`
 
 	KRTTopProtagonistNoCompetitionsInSim int `csv:"KRTTopProtagonistNoCIS"`
 	HoFTopProtagonistNoCompetitionsInSim int `csv:"HOFTopProtagonistNoCIS"`
@@ -284,16 +400,15 @@ type CSVAvgGenerationsCombinedAcrossRuns struct {
 
 	_ string `csv:"gen-spacer"`
 
-
-	KRTTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopStratArrInSim"`
-	HoFTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopStratArrInSim"`
-	RRTTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopStratArrInSim"`
-	SETTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopAStratArrInSim"`
-
-	KRTTopProtagonistStrategyARRInSim []Strategy `csv:"KRTTopPStratArrInSim"`
-	HoFTopProtagonistStrategyARRInSim []Strategy `csv:"KRTTopPStratArrInSim"`
-	RRTTopProtagonistStrategyARRInSim []Strategy `csv:"KRTopPStratArrInSim"`
-	SETTopProtagonistStrategyARRInSim []Strategy `csv:"KRTTopPStratArrSim"`
+	//KRTTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopStratArrInSim"`
+	//HoFTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopStratArrInSim"`
+	//RRTTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopStratArrInSim"`
+	//SETTopAntagonistStrategyARRInSim []Strategy `csv:"KRTTopAStratArrInSim"`
+	//
+	//KRTTopProtagonistStrategyARRInSim []Strategy `csv:"KRTTopPStratArrInSim"`
+	//HoFTopProtagonistStrategyARRInSim []Strategy `csv:"KRTTopPStratArrInSim"`
+	//RRTTopProtagonistStrategyARRInSim []Strategy `csv:"KRTopPStratArrInSim"`
+	//SETTopProtagonistStrategyARRInSim []Strategy `csv:"KRTTopPStratArrSim"`
 
 	/////######################################################### GENERATIONAL
 	/////######################################################### GENERATIONAL
@@ -409,17 +524,121 @@ type CSVAvgGenerationsCombinedAcrossRuns struct {
 	RRTopProtagonistStrategyInGen  string `csv:"RRPTopAvgStrategyIG"`
 	SETTopProtagonistStrategyInGen string `csv:"SETPTopAvgStrategyIG"`
 
-
-
 	KRTTopAntagonistDomStrategyInGen string `csv:"KRTATopAvgDomStrategyIG"`
 	HoFTopAntagonistDomStrategyInGen string `csv:"HOFATopAvgDomStrategyIG"`
 	RRTopAntagonistDomStrategyInGen  string `csv:"RRATopAvgDomStrategyIG"`
 	SETTopAntagonistDomStrategyInGen string `csv:"SETATopAvgDomStrategyIG"`
 
-	KRTTopProtagonistDomStrategyInGen    string `csv:"KRTPTopAvgDomStrategyIG"`
-	HoFTopProtagonistDomStrategyInGen    string `csv:"HOFPTopAvgDomStrategyIG"`
-	RRTopProtagonistDomStrategyInGen     string `csv:"RRPTopAvgDomStrategyIG"`
-	SETTopProtagonistDomStrategyInGen    string `csv:"SETPTopAvgDomStrategyIG"`
+	KRTTopProtagonistDomStrategyInGen string `csv:"KRTPTopAvgDomStrategyIG"`
+	HoFTopProtagonistDomStrategyInGen string `csv:"HOFPTopAvgDomStrategyIG"`
+	RRTopProtagonistDomStrategyInGen  string `csv:"RRPTopAvgDomStrategyIG"`
+	SETTopProtagonistDomStrategyInGen string `csv:"SETPTopAvgDomStrategyIG"`
+}
 
+type CSVTopologySensitiveCombinedAcrossRuns struct {
+	//FileID string                    `csv:"ID"`
+	//params evolution.EvolutionParams `csv:"evolutionaryParams"`
 
+	//BEST INDIVIDUAL
+	Generation int `csv:"gen"`
+
+	SpecEquation    string  `csv:"specEquation"`
+	SpecEquationLen int     `csv:"specEquationLen"`
+	IVarCount       int     `csv:"iVarCount"`
+	PolDegree       int     `csv:"polDeg"`
+	Topology        string  `csv:"topology"`
+	ParamVal        float64 `csv:"paramVal"`
+
+	TopAEquation          string `csv:"TopAEquationIS"`
+	TopAEquationPolDegree int    `csv:"TopAEquationPDIS"`
+
+	TopPEquation          string `csv:"TopPEquationIS"`
+	TopPEquationPolDegree int    `csv:"TopPEquationPDIS"`
+
+	TopAntagonistBestFitnessInSim  float64 `csv:"TopABestFitIS"`
+	TopProtagonistBestFitnessInSim float64 `csv:"TopPBestFitIS"`
+
+	TopAntagonistBirthGenInSim  int `csv:"TopABirthGenIS"`
+	TopProtagonistBirthGenInSim int `csv:"TopPBirthGenIS"`
+
+	TopAntagonistAgeInSim  int `csv:"TopAAgeIS"`
+	TopProtagonistAgeInSim int `csv:"TopPAgeIS"`
+
+	TopAntagonistStrategyInSim  string `csv:"TopAStratIS"`
+	TopProtagonistStrategyInSim string `csv:"TopPStratIS"`
+
+	// Mean of all antagonists in the generation generations
+	AntagonistsMeanInSim  float64 `csv:"AMeanIS"`
+	ProtagonistsMeanInSim float64 `csv:"PMeanIS"`
+
+	// TopIndividualStdDevs
+	AntagonistStdDevInSim  float64 `csv:"AStdIS"`
+	ProtagonistStdDevInSim float64 `csv:"PStdIS"`
+
+	// Variance of Individuals
+	AntagonistVarInSim  float64 `csv:"AVarIS"`
+	ProtagonistVarInSim float64 `csv:"PVarIS"`
+
+	AntagonistsAvgAgeInSim  float64 `csv:"AAvgAgeIS"`
+	ProtagonistsAvgAgeInSim float64 `csv:"PAvgAgeIS"`
+
+	TopAntagonistsAvgBirthGenInSim  float64 `csv:"TopAAvgBirthGenIS"`
+	TopProtagonistsAvgBirthGenInSim float64 `csv:"TopPAvgBirthGenIS"`
+
+	TopAntagonistNoCompetitionsInSim  int `csv:"TopAntagonistNoCIS"`
+	TopProtagonistNoCompetitionsInSim int `csv:"TopProtagonistNoCIS"`
+
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+	/////######################################################### GENERATIONAL
+
+	// Average Antagonists Age of Individuals in that Generation
+	AntagonistAverageAgeInGen  float64 `csv:"AAvgAgeIG"`
+	ProtagonistAverageAgeInGen float64 `csv:"PAvgAgeIG"`
+
+	// Top Individual Mean Fitness in generation
+	TopAntagonistsMeanInGen  float64 `csv:"TopAMeanIG"`
+	TopProtagonistsMeanInGen float64 `csv:"TopPMeanIG"`
+
+	// Mean of all antagonists in the generation generations
+	AntagonistsMeanInGen  float64 `csv:"AMeanIG"`
+	ProtagonistsMeanInGen float64 `csv:"PMeanIG"`
+
+	// Best Fitness value of top Individual in generation
+	TopAntagonistBestFitnessInGen  float64 `csv:"TopABestIG"`
+	TopProtagonistBestFitnessInGen float64 `csv:"TopPBestIG"`
+
+	// TopIndividualStdDev
+	TopAntagonistStdDevInGen  float64 `csv:"TopAStdIG"`
+	TopProtagonistStdDevInGen float64 `csv:"TopPStdIG"`
+
+	// Variance of TopIndividual
+	TopAntagonistVarInGen  float64 `csv:"TopAVarIG"`
+	TopProtagonistVarInGen float64 `csv:"TopPVarIG"`
+
+	TopAntagonistAverageAgeInGen  float64 `csv:"ATopAvgAgeIG"`
+	TopProtagonistAverageAgeInGen float64 `csv:"PTopAvgAgeIG"`
+
+	TopAntagonistBirthGenInGen  float64 `csv:"ATopAvgBirthGenIG"`
+	TopProtagonistBirthGenInGen float64 `csv:"PTopAvgBirthGenIG"`
+
+	TopAntagonistStrategyInGen  string `csv:"ATopAvgStrategyIG"`
+	TopProtagonistStrategyInGen string `csv:"PTopAvgStrategyIG"`
+
+	TopAntagonistDomStrategyInGen  string `csv:"ATopAvgDomStrategyIG"`
+	TopProtagonistDomStrategyInGen string `csv:"PTopAvgDomStrategyIG"`
 }

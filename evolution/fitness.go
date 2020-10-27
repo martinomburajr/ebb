@@ -142,7 +142,6 @@ func deliberateProtagonistFitness(specLen float64, deltaProtagonist float64, del
 	return fitness, deltaProtagonist
 }
 
-
 // assignHealthyAntagonistFitness assigns fitness only if the antagonist is deemed valid
 func assignHealthyAntagonistFitness(deltaAntagonist float64, deltaAntagonistThreshold float64) float64 {
 	antagonistFitness := 0.0

@@ -7,7 +7,6 @@ import (
 	"log"
 	"math/rand"
 	"os"
-	"sync"
 	"time"
 )
 
@@ -48,13 +47,13 @@ func NewStartProgram(polDegree int, terminals, nonTerminals []rune) evolution.Bi
 
 	if rand.Intn(100)%2 == 0 {
 		for validTree == nil || err != nil {
-			validTree, err = evolution.NewRandomTreeFromPolDegreeCount(polDegree, 15, terminals, nonTerminals)
+			validTree, err = evolution.NewRandomTreeFromPolDegreeCount(polDegree, 18, terminals, nonTerminals)
 		}
 
 		return validTree
 	}
 
-	validTree = evolution.NewRandomTreeFromIVarCount(polDegree, 15, terminals, nonTerminals)
+	validTree = evolution.NewRandomTreeFromIVarCount(polDegree, 18, terminals, nonTerminals)
 
 	return validTree
 }
@@ -74,7 +73,7 @@ func Init(config *ApplicationConfig) (Simulation, error) {
 	switch config.Complexity {
 	case 0:
 		min := 1
-		max := 4
+		max := 6
 		randSize := rand.Intn(max) + min
 
 		err := fmt.Errorf("start Program Creation Test Error")
@@ -85,8 +84,8 @@ func Init(config *ApplicationConfig) (Simulation, error) {
 		}
 
 	case 1:
-		min := 4
-		max := 8
+		min := 6
+		max := 10
 		randSize := rand.Intn(max) + min
 
 		err := fmt.Errorf("start Program Creation Test Error")
@@ -97,8 +96,8 @@ func Init(config *ApplicationConfig) (Simulation, error) {
 		}
 
 	case 2:
-		min := 8
-		max := 15
+		min := 10
+		max := 18
 		randSize := rand.Intn(max) + min
 		err := fmt.Errorf("start Program Creation Test Error")
 
@@ -184,16 +183,10 @@ func (s *Simulation) Start() (evolution.SimulationResult, error) {
 	for i := 0; i < s.Runs; i++ {
 		currentRun := int64(i + 1)
 
-		//wg := sync.WaitGroup{}
-
-		//wg.Add(4)
-		// KRT
-		//go func(wg *sync.WaitGroup) {
-		//	defer wg.Done()
-
 		krtEngine := engine.Clone()
-		krtEngine.CurrentRun = currentRun
+		krtEngine.Topology = "KRT"
 
+		krtEngine.CurrentRun = currentRun
 		krt := &evolution.KRandom{Engine: krtEngine}
 		krtResult, err := s.startRun(&krtEngine, krt)
 		if err != nil {
@@ -220,7 +213,7 @@ func (s *Simulation) Start() (evolution.SimulationResult, error) {
 
 		HoFResults[i] = hofResult
 		hofEngine.LogTime("HoF Duration")
-		s.printSystemStats()
+		//s.printSystemStats()
 		//}(&wg)
 
 		// RR
@@ -236,8 +229,8 @@ func (s *Simulation) Start() (evolution.SimulationResult, error) {
 		}
 
 		RRResults[i] = rrResult
-		rrEngine.LogTime("RR Duration")
-		s.printSystemStats()
+		//rrEngine.LogTime("RR Duration")
+		//s.printSystemStats()
 		//}(&wg)
 
 		// SET
@@ -246,6 +239,8 @@ func (s *Simulation) Start() (evolution.SimulationResult, error) {
 
 		setEngine := engine.Clone()
 		setEngine.CurrentRun = currentRun
+		setEngine.Topology = "SET"
+
 		set := evolution.SingleEliminationTournament{Engine: engine.Clone()}
 		setResult, err := s.startRun(&setEngine, &set)
 		if err != nil {
@@ -284,76 +279,6 @@ func (s *Simulation) Start() (evolution.SimulationResult, error) {
 	return simulationResult, nil
 }
 
-//func (s *Simulation) StartP() (evolution.SimulationResult, error) {
-//	KRTResults := make([]evolution.EvolutionResult, s.Runs)
-//	HoFResults := make([]evolution.EvolutionResult, s.Runs)
-//	RRResults := make([]evolution.EvolutionResult, s.Runs)
-//	SETResults := make([]evolution.EvolutionResult, s.Runs)
-//
-//	// Setup Engine
-//	engine := evolution.Engine{}
-//
-//	err := engine.Validate()
-//	if err != nil {
-//		return evolution.SimulationResult{}, err
-//	}
-//
-//	outerWg := sync.WaitGroup{}
-//
-//	for i := 0; i < s.Runs; i++ {
-//		i := i
-//		go func() {
-//			outerWg.Add(1)
-//			defer outerWg.Done()
-//			// Run runs in parallel for each topology
-//
-//			wg := sync.WaitGroup{}
-//			// KRT
-//				go s.startRunP(&wg, i, s.Config.Params.Clone(), engine.Clone(), KRTResults)
-//
-//				// HoF
-//				go s.startRunP(&wg, i, s.Config.Params.Clone(), engine.Clone(), HoFResults)
-//
-//				// RR
-//				go s.startRunP(&wg, i, s.Config.Params.Clone(), engine.Clone(), RRResults)
-//
-//				// SET
-//				go s.startRunP(&wg, i, s.Config.Params.Clone(), engine.Clone(), SETResults)
-//
-//			wg.Wait()
-//		}()
-//	}
-//
-//	outerWg.Wait()
-//
-//	// At this point all the runs are complete and we now compress all the run information into separate evolution.TopologicalResult
-//	// objects
-//
-//	// Bring together all the different topologies into one
-//	var KRTTopologyResult, HoFTopologyResult, RRTopologyResult, SETTopologyResult evolution.TopologicalResult
-//
-//	wg := sync.WaitGroup{}
-//
-//		go s.combineRunsP(&wg, &KRTTopologyResult, KRTResults)
-//
-//		go s.combineRunsP(&wg, &HoFTopologyResult, HoFResults)
-//
-//		go s.combineRunsP(&wg, &RRTopologyResult, RRResults)
-//
-//		go s.combineRunsP(&wg, &SETTopologyResult, SETResults)
-//
-//	wg.Wait()
-//
-//	simulationResult := evolution.SimulationResult{
-//		KRT: KRTTopologyResult,
-//		RR:  HoFTopologyResult,
-//		SET: RRTopologyResult,
-//		HoF: SETTopologyResult,
-//	}
-//
-//	return simulationResult, nil
-//}
-
 func (s *Simulation) LogMessage(str string, logType int) {
 	msg := fmt.Sprintf("%s", str)
 
@@ -365,14 +290,6 @@ func (s *Simulation) combineRuns(topology string, result *evolution.TopologicalR
 	topologicalResults := evolution.NewTopologicalResults("", evolutionResults)
 	result.Topology = topology
 	*result = topologicalResults
-}
-
-func (s *Simulation) combineRunsP(wg *sync.WaitGroup, result *evolution.TopologicalResult, evolutionResults []evolution.EvolutionResult) {
-	wg.Add(1)
-	defer wg.Done()
-
-	topologicalResults := evolution.NewTopologicalResults("", evolutionResults)
-	result = &topologicalResults
 }
 
 func (s *Simulation) startRun(engine *evolution.Engine, topology evolution.Evolver) (evolution.EvolutionResult, error) {
@@ -387,92 +304,4 @@ func (s *Simulation) startRun(engine *evolution.Engine, topology evolution.Evolv
 	return result, nil
 }
 
-//func (s *Simulation) startRunP(wg *sync.WaitGroup, index int, params evolution.EvolutionParams, engine evolution.Engine, results []evolution.EvolutionResult) {
-//	wg.Add(1)
-//	defer wg.Done()
-//
-//	competition := evolution.SingleEliminationTournament{Engine: engine}
-//
-//	result, err := competition.Evolve(params, &competition)
-//
-//	if err != nil {
-//		params.ErrorChan <- err
-//	}
-//
-//	results[index] = result
-//}
-
 type RunResult evolution.EvolutionResult
-
-func CombineComplexityStats(baseDir string) {}
-
-func CombineComplexityDiagrams(baseDir string) {}
-
-type CSVOutputter interface {
-	// This averages results across gen[i] across all the runs. Meaning Gen0 will be averaged across all the runs
-	// Gen1 will be averaged across all the runs etc.
-	OutputAveragedGenerationalStatistics(baseDir string)
-	OutputEpochalStatistics(baseDir string)
-}
-
-type DiagramOutputter interface {
-	// This averages results across gen[i] across all the runs. Meaning Gen0 will be averaged across all the runs
-	// Gen1 will be averaged across all the runs etc.
-	OutputAveragedGenerationalStatistics(baseDir string)
-	OutputEpochalStatistics(baseDir string)
-}
-
-type RunCombiner interface {
-	CombineStats(complexityDir string)
-	CombineDiagrams(complexityDir string)
-}
-
-type ComplexityCombiner interface {
-	CombineComplexityLevelStats(baseDir string)
-	CombineComplexityLevelDiagrams(baseDir string)
-}
-
-type AllCombiner interface {
-	CombineAllStats(baseDir string, complexityDirs []string)
-	CombineRunLevelDiagrams(baseDir string, complexityDirs []string)
-}
-
-//func CombineRunResultByGeneration(topology string, runs []RunResult) error {
-//	finalResult := RunResult{}
-//
-//
-//	topAntagonistInRunSumFitAvgSum := 0.0
-//	topProtagonistInRunSumFitAvgSum := 0.0
-//
-//
-//	for i := 0; i < len(runs); i++ {
-//		for j := 0; j < len(runs[i]); j++ {
-//
-//		}
-//		topAntagonistInRunSumFitAvgSum += runs[i].result.TopAntagonistOfAllRuns.AverageFitness
-//		topProtagonistInRunSumFitAvgSum += runs[i].result.TopAntagonistOfAllRuns.AverageFitness
-//	}
-//
-//	gens := make([]analysis.CSVAvgGenerationsCombinedAcrossRuns, 0)
-//
-//	topAntagonistMeanSum := 0.0
-//	topProtagonistMeanSum := 0.0
-//	topAntagonistBestFitSum := 0.0
-//	topProtagonistBestFitSum := 0.0
-//	topAntagonistStdDevSumSum := 0.0
-//	topProtagonistStdDevSumSum := 0.0
-//	topAntagonistVarSum := 0.0
-//	topProtagonistVarSum := 0.0
-//	// for each run
-//	for i := 0; i < len(runs); i++ {
-//		// for each generation
-//		for j := 0; j < len(runs[i].result.Generational.AntagonistAverageInEachGeneration); j++ {
-//			gen := runs[i].result.ThoroughlySortedGenerations[j]
-//
-//			topAntagonistBestFitSum += runs[i].result.Generational.BestAntagonistInEachGenerationByAvgFitness[j].AverageFitness
-//			topAntagonistBestFitSum += runs[i].result.Generational.BestAntagonistInEachGenerationByAvgFitness[j].AverageFitness
-//		}
-//	}
-//
-//	runs[0].result
-//}

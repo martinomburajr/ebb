@@ -14,8 +14,8 @@ const (
 )
 
 type Individual struct {
-	ID      uint32
-	Program BinaryTree // The best program generated
+	ID       uint32
+	Program  BinaryTree // The best program generated
 	Strategy []Strategy
 	Kind     int
 
@@ -35,7 +35,6 @@ type Individual struct {
 	BestDelta        float64
 	AverageDelta     float64
 	NoOfCompetitions int
-
 }
 
 // TODO switch to float32
@@ -174,9 +173,7 @@ func (i *Individual) ApplyProtagonistStrategy(antagonistTree BinaryTree, params 
 	i.HasAppliedStrategy = true
 	i.HasAppliedStrategy = true
 
-
 	i.NoOfCompetitions++
-
 
 	return nil
 }

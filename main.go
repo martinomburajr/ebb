@@ -37,7 +37,15 @@ func MainSimulation(configPath string) {
 	if parseAll {
 		log.Println("evo: parsing all...")
 
-		application.ParseAll()
+		//krtFile := "stats_1-krt.csv"
+		//setFile := "stats_1-set.csv"
+		//application.ParseAllTopologyAware(krtFile, "krt-all.csv")
+
+		//allFile := "stats_1.csv"
+		//application.ParseAll(allFile, "all-stats2.0.csv")
+
+		allFileStrat := "stats_1-strategy.csv"
+		application.ParseAllCSVStrat(allFileStrat, "all-stats_1-strat2.0.csv")
 		return
 	}
 
@@ -56,7 +64,7 @@ func MainSimulation(configPath string) {
 func ParseFlags() (parseAll bool, config string, threads, apps int) {
 	flag.BoolVar(&parseAll, "parseAll", false, "ParseAll begins the compaction of all data")
 	flag.StringVar(&config, "config", "config.json", "defines the path of the config")
-	flag.IntVar(&threads, "threads", 6, "The size of a given threadpool")
+	flag.IntVar(&threads, "threads", 3, "The size of a given threadpool")
 	flag.IntVar(&apps, "apps", 2000, "The number of applications to run")
 
 	flag.Parse()

@@ -13,7 +13,7 @@
   "params": {
         "name": "selected-params",
       "idSeparation": 10000,
-        "generationCount": 300,
+        "generationCount": 5000,
         "eachPopulationSize": 64,
     "minimumTopProtagonistMeanBeforeTerminate": 0.75,
     "minimumGenerationMeanBeforeTerminate": 0.6,

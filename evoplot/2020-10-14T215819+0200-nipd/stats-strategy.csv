@@ -1,0 +1,16 @@
+num,KRTTopAStratIS,HOFTopAStratIS,RRTopAStratIS,SETTopAStratIS,KRTTopPStratIS,HOFTopPStratIS,RRTopPStratIS,SETTopPStratIS
+0,SkipD,AddCD,SubKD,AppendRandomOperationR,AppendRandomOperationR,AppendRandomOperationR,SubKD,MutateTerminalR
+1,SubKD,MutateTerminalR,FellTreeD,MutateTerminalR,FellTreeD,AppendRandomOperationR,SubKD,MultCD
+2,MutateTerminalR,MultKD,DivCD,DivKD,SubCD,SubKD,SubCD,DeleteNonTerminalR
+3,SubCD,SkipD,AddKD,SubKD,SubCD,AddCD,DeleteNonTerminalR,DeleteTerminalR
+4,FellTreeD,MultCD,DeleteTerminalR,SubCD,DeleteTerminalR,DeleteNonTerminalR,DivCD,MutateNonTerminalR
+5,FellTreeD,AddKD,DeleteNonTerminalR,AddKD,SkipD,FellTreeD,MutateTerminalR,AddKD
+6,DivCD,FellTreeD,SkipD,AddCD,MultCD,FellTreeD,SubCD,DivCD
+7,AppendRandomOperationR,AppendRandomOperationR,SubCD,FellTreeD,AddKD,SubCD,FellTreeD,DivCD
+8,AddKD,DeleteNonTerminalR,MutateTerminalR,SubKD,MutateTerminalR,FellTreeD,AppendRandomOperationR,FellTreeD
+9,MultKD,DeleteNonTerminalR,MultCD,AddKD,MultCD,AddCD,MultCD,AddCD
+10,AppendRandomOperationR,DeleteTerminalR,DeleteNonTerminalR,DeleteNonTerminalR,SubKD,MutateTerminalR,SubKD,SubKD
+11,SubCD,SubKD,DivKD,FellTreeD,MutateTerminalR,DeleteTerminalR,DivCD,MultCD
+12,MultKD,SubKD,DivKD,FellTreeD,AddKD,MutateTerminalR,FellTreeD,AddKD
+13,DivKD,MultKD,DeleteNonTerminalR,AddKD,DeleteNonTerminalR,DeleteTerminalR,MutateTerminalR,MultKD
+14,SubCD,DivKD,MultKD,AddCD,FellTreeD,SubKD,DeleteNonTerminalR,DeleteTerminalR

@@ -162,9 +162,13 @@ modules.xml
 
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,intellij+iml,go
-stats
+stats_1
 plots
 trash
 /stats
 /plots
 /trash
+stats-bk.zip
+stats-krtset.zip
+*.zip
+

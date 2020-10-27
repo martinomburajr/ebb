@@ -22,6 +22,9 @@ type Engine struct {
 
 	Start time.Time
 
+	Topology      string
+	TopologyParam float64
+
 	GenerationResults []GenerationResult `json:"generationResults"`
 	Parameters        EvolutionParams    `json:"parameters"`
 
@@ -33,7 +36,7 @@ type Engine struct {
 	idAllocStart  uint32
 	idAllocOffset uint32
 
-	CurrentRun  int64
+	CurrentRun int64
 
 	End time.Time
 }
@@ -133,7 +136,6 @@ func (e *Engine) Evolve(topology Evolver) (EvolutionResult, error) {
 
 	return evolutionResult, nil
 }
-
 
 // EvaluateTerminationCriteria looks at the current state of the Generation and checks to see if the current
 // termination criteria have been achieved. If so it returns true, if not the evolution can move on to the next step

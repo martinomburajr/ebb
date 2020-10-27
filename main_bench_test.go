@@ -23,7 +23,7 @@ func BenchmarkMainSimulation(b *testing.B) {
 	b.ReportAllocs()
 	//debug.SetGCPercent(-1)
 
-	for i := 0; i < b.N; i++{
+	for i := 0; i < b.N; i++ {
 		err = application.Begin()
 
 		if err != nil {

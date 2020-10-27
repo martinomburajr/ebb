@@ -148,4 +148,3 @@ func (r *RoundRobin) startTournament(competitions []RRCompetition, params Evolut
 
 	return bestAntagonists, bestProtagonists, nil
 }
-

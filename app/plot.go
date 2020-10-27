@@ -179,7 +179,7 @@ func (s *Simulation) NewPlotTopIndividualAveragesLine(kind int, topologyPlots []
 		return plotIndividualTopologyStats(p, "top-test-averages", StatsTypeBest, evolution.IndividualProtagonist, 0, topologyPlots)
 
 	default:
-		p.Title.Text =  fmt.Sprintf("Bug & Tests Averages Across Generations | %s", s.Config.Params.StartIndividual.ToMathematicalString())
+		p.Title.Text = fmt.Sprintf("Bug & Tests Averages Across Generations | %s", s.Config.Params.StartIndividual.ToMathematicalString())
 		p.X.Label.Text = "Generations"
 		p.Y.Label.Text = "Fitness"
 
@@ -192,8 +192,6 @@ func (s *Simulation) NewPlotTopIndividualAveragesLine(kind int, topologyPlots []
 		}
 	}
 }
-
-
 
 // This plots generational averages across all runs for a given set of topologies using a line graph
 func (s *Simulation) NewPlotTopAntVsProInTopologiesLine(fileName string, topologyPlots evolution.TopologyPlot) PlotDetails {
@@ -228,7 +226,6 @@ func (s *Simulation) NewPlotAvgAntVsProInTopologiesLine(fileName string, topolog
 	p.Title.Text = fmt.Sprintf("%s: Average Bug vs Top Test | %s", topologyPlots.Topology, s.Config.Params.StartIndividual.ToMathematicalString())
 	p.X.Label.Text = "Generations"
 	p.Y.Label.Text = "Fitness"
-
 
 	plotTopologyForBothIndividualStats(p, "topology-vs", StatsTypeAverage, evolution.IndividualAntagonist, 0,
 		[]evolution.TopologyPlot{topologyPlots})

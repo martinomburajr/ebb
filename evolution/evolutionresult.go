@@ -13,10 +13,13 @@ const (
 	ProgressCountersEvolutionResult = 7
 )
 
-// EvolutionResult describes the outcome of an entire run. It contains all the stats from each generation as well as the
+// EvolutionResult describes the outcome of an entire run. It contains all the stats_1 from each generation as well as the
 // totals.
 type EvolutionResult struct {
 	HasBeenAnalyzed bool
+
+	Topology      string
+	TopologyParam float64
 
 	TopAntagonistInRun  Individual
 	TopProtagonistInRun Individual
@@ -41,219 +44,6 @@ type EvolutionResult struct {
 
 	GenerationalResults []GenerationResult
 }
-
-// Combine either averages or selects the fittest fields for the elements it's attempting to combine
-//func (e *EvolutionResult) Combine(other EvolutionResult) EvolutionResult {
-//
-//	// Always looks at average fitness
-//	topAntagonistInRun := other.TopAntagonistOfAllRuns
-//	topProtagonistInRun := other.TopProtagonistOfAllRuns
-//	finAntagonistInRun := other.FinalBestAntagonistOfAllRuns
-//	finProtagonistInRun := other.FinalBestProtagonistOfAllRuns
-//
-//	if e.TopProtagonistOfAllRuns.AverageFitness > other.TopProtagonistOfAllRuns.AverageFitness {
-//		topProtagonistInRun = e.TopProtagonistOfAllRuns
-//	}
-//
-//	finalResult := EvolutionResult{
-//		HasBeenAnalyzed:       true,
-//		TopAntagonistOfAllRuns:    topAntagonistInRun,
-//		TopProtagonistOfAllRuns:   topProtagonistInRun,
-//		FinalBestAntagonistOfAllRuns:       finAntagonistInRun,
-//		FinalBestProtagonistOfAllRuns:      finProtagonistInRun,
-//		AntagonistMeanFitAcrossAllRuns:     0,
-//		ProtagonistMeanFitAcrossAllRuns:    0,
-//		AntagonistMeanStdDev:  0,
-//		ProtagonistMeanStdDev: 0,
-//		AntagonistMeanVar:     0,
-//		ProtagonistMeanVar:    0,
-//		OldestAntagonist:      0,
-//		OldestProtagonist:     0,
-//		AvgAgeAntagonist:      0,
-//		AvgAgeProtagonist:     0,
-//		TopGenerationalResultsAcrossAllRuns:   nil,
-//	}
-//
-//	// Always looks at average fitness
-//	topAntagonistInRun := Individual{AverageFitness: math.MinInt16}
-//	topProtagonistInRun := Individual{AverageFitness: math.MinInt16}
-//	finAntagonistInRun := Individual{AverageFitness: math.MinInt16}
-//	finProtagonistInRun := Individual{AverageFitness: math.MinInt16}
-//
-//	oldAnt := float64(math.MinInt16)
-//	oldPro := float64(math.MinInt16)
-//
-//	antAgeSum := 0.0
-//	proAgeSum := 0.0
-//
-//	antagonistStdDevSum := 0.0
-//	protagonistStdDevSum := 0.0
-//
-//	antagonistVarSum := 0.0
-//	protagonistVarSum := 0.0
-//
-//	antagonistAvgSum := 0.0
-//	protagonistAvgSum := 0.0
-//
-//	runCount := len(evolutionResults)
-//
-//	for i := 0; i < runCount; i++ {
-//		runResult := evolutionResults[i]
-//
-//		currAntagonist := runResult.TopAntagonistOfAllRuns
-//		currProtagonist := runResult.TopProtagonistOfAllRuns
-//		currFinAntagonist := runResult.FinalBestAntagonistOfAllRuns
-//		currFinProtagonist := runResult.FinalBestProtagonistOfAllRuns
-//
-//		if currAntagonist.AverageFitness > topAntagonistInRun.AverageFitness {
-//			topAntagonistInRun = currAntagonist
-//		}
-//		if currProtagonist.AverageFitness > topProtagonistInRun.AverageFitness {
-//			topProtagonistInRun = currProtagonist
-//		}
-//
-//		if currFinAntagonist.AverageFitness > finAntagonistInRun.AverageFitness {
-//			finAntagonistInRun = currFinAntagonist
-//		}
-//		if currFinProtagonist.AverageFitness > finProtagonistInRun.AverageFitness {
-//			finProtagonistInRun = currFinProtagonist
-//		}
-//
-//		if oldAnt < runResult.OldestAntagonist {
-//			oldAnt = runResult.OldestAntagonist
-//		}
-//		if oldPro < runResult.OldestProtagonist {
-//			oldPro = runResult.OldestProtagonist
-//		}
-//
-//		antagonistAvgSum += runResult.AntagonistMeanFitAcrossAllRuns
-//		protagonistAvgSum += runResult.ProtagonistMeanFitAcrossAllRuns
-//
-//		antagonistVarSum += runResult.AntagonistMeanVar
-//		protagonistVarSum += runResult.ProtagonistMeanVar
-//
-//		antagonistStdDevSum += runResult.AntagonistMeanStdDev
-//		protagonistStdDevSum += runResult.ProtagonistMeanStdDev
-//
-//		antAgeSum += runResult.AvgAgeAntagonist
-//		proAgeSum += runResult.AvgAgeProtagonist
-//	}
-//
-//
-//	//Average generations
-//	genLength := len(evolutionResults[0].TopGenerationalResultsAcrossAllRuns)
-//	genLengthFloat := float64(genLength)
-//
-//	clonedGenResults := make([]GenerationResult, genLength)
-//
-//	topAntagonistInRunInner := Individual{AverageFitness: math.MinInt16}
-//	topProtagonistInRunInner := Individual{AverageFitness: math.MinInt16}
-//	//finAntagonistInRunInner := Individual{AverageFitness: math.MinInt16}
-//	//finProtagonistInRunInner := Individual{AverageFitness: math.MinInt16}
-//
-//	oldAntInner := float64(math.MinInt16)
-//	oldProInner := float64(math.MinInt16)
-//
-//	antAgeSumInner := 0.0
-//	proAgeSumInner := 0.0
-//
-//	antagonistStdDevSumInner := 0.0
-//	protagonistStdDevSumInner := 0.0
-//
-//	antagonistVarSumInner := 0.0
-//	protagonistVarSumInner := 0.0
-//
-//	antagonistAvgSumInner := 0.0
-//	protagonistAvgSumInner := 0.0
-//
-//	for i := 0; i < genLength; i++ {
-//		for j := 0; j < len(evolutionResults); j++ {
-//			run := evolutionResults[j]
-//			gen := run.TopGenerationalResultsAcrossAllRuns[i]
-//
-//			currAntagonist := gen.BestAntagonist
-//			currProtagonist := gen.BestProtagonist
-//			//currFinAntagonist := gen.
-//			//currFinProtagonist := gen.FinalBestProtagonistOfAllRuns
-//
-//			if currAntagonist.AverageFitness > topAntagonistInRunInner.AverageFitness {
-//				topAntagonistInRunInner = currAntagonist
-//			}
-//			if currProtagonist.AverageFitness > topProtagonistInRunInner.AverageFitness {
-//				topProtagonistInRunInner = currProtagonist
-//			}
-//
-//			//if currFinAntagonistInner.AverageFitness > finAntagonistInRunInner.AverageFitness {
-//			//	finAntagonistInRunInner = currFinAntagonist
-//			//}
-//			//if currFinProtagonist.AverageFitness > finProtagonistInRunInner.AverageFitness {
-//			//	finProtagonistInRunInner = currFinProtagonist
-//			//}
-//
-//			if oldAntInner < gen.AntagonistOldAge {
-//				oldAntInner = gen.AntagonistOldAge
-//			}
-//			if oldProInner < gen.ProtagonistOldAge {
-//				oldProInner = gen.ProtagonistOldAge
-//			}
-//
-//			antagonistAvgSumInner += gen.AllAntagonistAverageFitness
-//			protagonistAvgSumInner += gen.AllProtagonistAverageFitness
-//
-//			antagonistVarSumInner += gen.AntagonistVarianceOfAvgFitnessValues
-//			protagonistVarSumInner += gen.ProtagonistVarianceOfAvgFitnessValues
-//
-//			antagonistStdDevSumInner += gen.AntagonistStdDevOfAvgFitnessValues
-//			protagonistStdDevSumInner += gen.ProtagonistStdDevOfAvgFitnessValues
-//
-//			antAgeSumInner += gen.AntagonistAvgAge
-//			proAgeSumInner += gen.ProtagonistAvgAge
-//
-//			clonedGenResults[i] = GenerationResult{
-//				ID:                  uint32(i),
-//				BestAntagonist:      topAntagonistInRunInner,
-//				BestProtagonist:     topProtagonistInRunInner,
-//				AllAntagonistAverageFitness:   antagonistAvgSumInner / genLengthFloat,
-//				AntagonistStdDevOfAvgFitnessValues:    antagonistStdDevSumInner / genLengthFloat,
-//				AntagonistVarianceOfAvgFitnessValues:  antagonistVarSumInner / genLengthFloat,
-//				AllProtagonistAverageFitness:  protagonistAvgSumInner / genLengthFloat,
-//				ProtagonistStdDevOfAvgFitnessValues:   protagonistStdDevSumInner / genLengthFloat,
-//				ProtagonistVarianceOfAvgFitnessValues: protagonistVarSumInner / genLengthFloat,
-//				AntagonistOldAge:    oldAntInner,
-//				ProtagonistOldAge:   oldProInner,
-//				AntagonistAvgAge:    antAgeSumInner / genLengthFloat,
-//				ProtagonistAvgAge:   proAgeSumInner / genLengthFloat,
-//			}
-//		}
-//	}
-//
-//	genLengthFloat64 := float64(runCount)
-//
-//	return TopologicalResult{
-//		HasBeenAnalyzed:     true,
-//		TopAntagonistOfAllRuns:  topAntagonistInRun.Clone(),
-//		TopProtagonistOfAllRuns: topProtagonistInRun.Clone(),
-//		FinalBestAntagonistOfAllRuns:     finAntagonistInRun,
-//		FinalBestProtagonistOfAllRuns:    finProtagonistInRun,
-//
-//		AntagonistMeanFitAcrossAllRuns: antagonistAvgSum / genLengthFloat64,
-//		ProtagonistMeanFitAcrossAllRuns: protagonistAvgSum/ genLengthFloat64,
-//
-//		AntagonistMeanStdDev: antagonistStdDevSum/ genLengthFloat64,
-//		ProtagonistMeanStdDev: protagonistStdDevSum/ genLengthFloat64,
-//
-//		AntagonistMeanVar: antagonistVarSum/ genLengthFloat64,
-//		ProtagonistMeanVar: protagonistVarSum/ genLengthFloat64,
-//
-//		AvgAgeAntagonist:  antAgeSum / genLengthFloat64,
-//		AvgAgeProtagonist: antAgeSum / genLengthFloat64,
-//
-//		OldestAntagonist:  oldAnt,
-//		OldestProtagonist: oldPro,
-//
-//		TopGenerationalResultsAcrossAllRuns: clonedGenResults,
-//	}
-//}
 
 // AnalyzeResults will look at the TopGenerationalResultsAcrossAllRuns and other data to come up with an EvolutionResult
 // After the analysis is complete there should be no handle to any other data i.e no memory leaks of referenced
@@ -320,7 +110,10 @@ func (e *Engine) AnalyzeResults() EvolutionResult {
 	genLengthFloat64 := float64(genLength)
 
 	evolutionResult := EvolutionResult{
-		HasBeenAnalyzed:     true,
+		HasBeenAnalyzed: true,
+		TopologyParam:   e.TopologyParam,
+		Topology:        e.Topology,
+
 		TopAntagonistInRun:  topAntagonistInRun.Clone(-1),
 		TopProtagonistInRun: topProtagonistInRun.Clone(-1),
 		FinalAntagonist:     finalAntagonist.Clone(-1),
@@ -639,7 +432,6 @@ func (s *SimulationResult) GenerateCSVData(params EvolutionParams) ([]CSVAvgGene
 			HoFTopProtagonistDomStrategyInGen: DominantStrategy(s.HoF.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist),
 			RRTopProtagonistDomStrategyInGen:  DominantStrategy(s.RR.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist),
 			SETTopProtagonistDomStrategyInGen: DominantStrategy(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist),
-			
 
 			////////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
 			////////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
@@ -706,9 +498,9 @@ func (s *SimulationResult) GenerateCSVData(params EvolutionParams) ([]CSVAvgGene
 			RRTTopProtagonistStrategyInSim: StrategiesToString(s.RR.TopProtagonistOfAllRuns),
 			SETTopProtagonistStrategyInSim: StrategiesToString(s.SET.TopProtagonistOfAllRuns),
 
-			KRTAntagonistsAvgAgeInSim: s.KRT.AvgAgeAntagonist,
-			HoFAntagonistsAvgAgeInSim: s.HoF.AvgAgeAntagonist,
-			RRTAntagonistsAvgAgeInSim: s.RR.AvgAgeAntagonist,
+			KRTAntagonistsAvgAgeInSim:  s.KRT.AvgAgeAntagonist,
+			HoFAntagonistsAvgAgeInSim:  s.HoF.AvgAgeAntagonist,
+			RRTAntagonistsAvgAgeInSim:  s.RR.AvgAgeAntagonist,
 			SETAntagonistsAvgAgeInSim:  s.SET.AvgAgeAntagonist,
 			KRTProtagonistsAvgAgeInSim: s.KRT.AvgAgeProtagonist,
 			HoFProtagonistsAvgAgeInSim: s.HoF.AvgAgeProtagonist,
@@ -756,7 +548,6 @@ func (s *SimulationResult) GenerateCSVData(params EvolutionParams) ([]CSVAvgGene
 			SETProtagonistVarInSim: s.SET.ProtagonistMeanVar,
 		}
 
-	
 		AllCSVGens[i] = csvGen
 	}
 
@@ -775,6 +566,208 @@ func (s *SimulationResult) GenerateCSVData(params EvolutionParams) ([]CSVAvgGene
 
 		AllCSVStats = append(AllCSVStats, stat)
 	}
+
+	return AllCSVGens, AllCSVStats
+}
+
+func (s *SimulationResult) GenerateTopologySpecificCSVData(params EvolutionParams, topology string) ([]CSVTopologySensitiveCombinedAcrossRuns, []CSVStrat) {
+	AllCSVGens := make([]CSVTopologySensitiveCombinedAcrossRuns, len(s.KRT.TopGenerationalResultsAcrossAllRuns))
+	AllCSVStats := make([]CSVStrat, 0)
+
+	for i := 0; i < len(AllCSVGens); i++ {
+		var csvGen CSVTopologySensitiveCombinedAcrossRuns
+		switch topology {
+		case "KRT":
+			csvGen = CSVTopologySensitiveCombinedAcrossRuns{
+				Generation: i + 1,
+
+				SpecEquation:    params.StartIndividual.ToMathematicalString(),
+				SpecEquationLen: len(params.StartIndividual.ToMathematicalString()) / 2,
+				IVarCount:       CountVariable(params.StartIndividual.ToMathematicalString()),
+				PolDegree:       CountPolDegree(params.StartIndividual.ToMathematicalString()),
+
+				Topology:                   s.KRT.Topology,
+				ParamVal:                   s.KRT.TopologyParam,
+				AntagonistAverageAgeInGen:  s.KRT.AvgAgeAntagonist,
+				ProtagonistAverageAgeInGen: s.KRT.AvgAgeProtagonist,
+
+				AntagonistsMeanInGen:  s.KRT.TopGenerationalResultsAcrossAllRuns[i].AllAntagonistAverageFitness,
+				ProtagonistsMeanInGen: s.KRT.TopGenerationalResultsAcrossAllRuns[i].AllProtagonistAverageFitness,
+
+				TopAntagonistsMeanInGen:  s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.AverageFitness,
+				TopProtagonistsMeanInGen: s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.AverageFitness,
+
+				TopAntagonistBestFitnessInGen:  s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.BestFitness,
+				TopProtagonistBestFitnessInGen: s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.BestFitness,
+
+				TopAntagonistStdDevInGen:  s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.FitnessStdDev,
+				TopProtagonistStdDevInGen: s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.FitnessStdDev,
+
+				TopAntagonistVarInGen:  s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.FitnessVariance,
+				TopProtagonistVarInGen: s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.FitnessVariance,
+
+				TopAntagonistAverageAgeInGen:  float64(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.Age),
+				TopProtagonistAverageAgeInGen: float64(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.Age),
+
+				TopAntagonistBirthGenInGen:  float64(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.BirthGen),
+				TopProtagonistBirthGenInGen: float64(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.BirthGen),
+
+				TopAntagonistNoCompetitionsInSim:  s.KRT.TopAntagonistOfAllRuns.NoOfCompetitions,
+				TopProtagonistNoCompetitionsInSim: s.KRT.TopProtagonistOfAllRuns.NoOfCompetitions,
+
+				TopAntagonistStrategyInGen:  StrategiesToString(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist),
+				TopProtagonistStrategyInGen: StrategiesToString(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist),
+
+				TopAntagonistDomStrategyInGen:  DominantStrategy(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist),
+				TopProtagonistDomStrategyInGen: DominantStrategy(s.KRT.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist),
+
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+
+				TopAEquation:          s.KRT.TopAntagonistOfAllRuns.Program.ToMathematicalString(),
+				TopAEquationPolDegree: CountPolDegree(s.KRT.TopAntagonistOfAllRuns.Program.ToMathematicalString()),
+
+				TopPEquation:          s.KRT.TopProtagonistOfAllRuns.Program.ToMathematicalString(),
+				TopPEquationPolDegree: CountPolDegree(s.KRT.TopProtagonistOfAllRuns.Program.ToMathematicalString()),
+
+				TopAntagonistBestFitnessInSim:  s.KRT.TopAntagonistOfAllRuns.BestFitness,
+				TopProtagonistBestFitnessInSim: s.KRT.TopProtagonistOfAllRuns.BestFitness,
+
+				TopAntagonistBirthGenInSim:  s.KRT.TopAntagonistOfAllRuns.BirthGen,
+				TopProtagonistBirthGenInSim: s.KRT.TopProtagonistOfAllRuns.BirthGen,
+
+				TopAntagonistAgeInSim:  s.KRT.TopAntagonistOfAllRuns.Age,
+				TopProtagonistAgeInSim: s.KRT.TopProtagonistOfAllRuns.Age,
+
+				TopAntagonistStrategyInSim:  StrategiesToString(s.KRT.TopAntagonistOfAllRuns),
+				TopProtagonistStrategyInSim: StrategiesToString(s.KRT.TopProtagonistOfAllRuns),
+
+				AntagonistsAvgAgeInSim:  s.KRT.AvgAgeAntagonist,
+				ProtagonistsAvgAgeInSim: s.KRT.AvgAgeProtagonist,
+
+				TopAntagonistsAvgBirthGenInSim:  s.KRT.AvgBirthGenAntagonist,
+				TopProtagonistsAvgBirthGenInSim: s.KRT.AvgBirthGenProtagonist,
+
+				////////// ########################### AVERAGES #################################
+				AntagonistsMeanInSim:  s.KRT.AntagonistMeanFitAcrossAllRuns,
+				ProtagonistsMeanInSim: s.KRT.ProtagonistMeanFitAcrossAllRuns,
+
+				AntagonistStdDevInSim:  s.KRT.AntagonistMeanStdDev,
+				ProtagonistStdDevInSim: s.KRT.ProtagonistMeanStdDev,
+
+				AntagonistVarInSim:  s.KRT.AntagonistMeanVar,
+				ProtagonistVarInSim: s.KRT.ProtagonistMeanVar,
+			}
+		case "SET":
+			csvGen = CSVTopologySensitiveCombinedAcrossRuns{
+				Generation: i + 1,
+
+				SpecEquation:    params.StartIndividual.ToMathematicalString(),
+				SpecEquationLen: len(params.StartIndividual.ToMathematicalString()) / 2,
+				IVarCount:       CountVariable(params.StartIndividual.ToMathematicalString()),
+				PolDegree:       CountPolDegree(params.StartIndividual.ToMathematicalString()),
+
+				Topology:                   s.SET.Topology,
+				ParamVal:                   s.SET.TopologyParam,
+				AntagonistAverageAgeInGen:  s.SET.AvgAgeAntagonist,
+				ProtagonistAverageAgeInGen: s.SET.AvgAgeProtagonist,
+
+				AntagonistsMeanInGen:  s.SET.TopGenerationalResultsAcrossAllRuns[i].AllAntagonistAverageFitness,
+				ProtagonistsMeanInGen: s.SET.TopGenerationalResultsAcrossAllRuns[i].AllProtagonistAverageFitness,
+
+				TopAntagonistsMeanInGen:  s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.AverageFitness,
+				TopProtagonistsMeanInGen: s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.AverageFitness,
+
+				TopAntagonistBestFitnessInGen:  s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.BestFitness,
+				TopProtagonistBestFitnessInGen: s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.BestFitness,
+
+				TopAntagonistStdDevInGen:  s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.FitnessStdDev,
+				TopProtagonistStdDevInGen: s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.FitnessStdDev,
+
+				TopAntagonistVarInGen:  s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.FitnessVariance,
+				TopProtagonistVarInGen: s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.FitnessVariance,
+
+				TopAntagonistAverageAgeInGen:  float64(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.Age),
+				TopProtagonistAverageAgeInGen: float64(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.Age),
+
+				TopAntagonistBirthGenInGen:  float64(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist.BirthGen),
+				TopProtagonistBirthGenInGen: float64(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist.BirthGen),
+
+				TopAntagonistNoCompetitionsInSim:  s.SET.TopAntagonistOfAllRuns.NoOfCompetitions,
+				TopProtagonistNoCompetitionsInSim: s.SET.TopProtagonistOfAllRuns.NoOfCompetitions,
+
+				TopAntagonistStrategyInGen:  StrategiesToString(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist),
+				TopProtagonistStrategyInGen: StrategiesToString(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist),
+
+				TopAntagonistDomStrategyInGen:  DominantStrategy(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestAntagonist),
+				TopProtagonistDomStrategyInGen: DominantStrategy(s.SET.TopGenerationalResultsAcrossAllRuns[i].BestProtagonist),
+
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+				/////////////////////////////////// TOP INDIVIDUAL /////////////////////////////////////////////////
+
+				TopAEquation:          s.SET.TopAntagonistOfAllRuns.Program.ToMathematicalString(),
+				TopAEquationPolDegree: CountPolDegree(s.SET.TopAntagonistOfAllRuns.Program.ToMathematicalString()),
+
+				TopPEquation:          s.SET.TopProtagonistOfAllRuns.Program.ToMathematicalString(),
+				TopPEquationPolDegree: CountPolDegree(s.SET.TopProtagonistOfAllRuns.Program.ToMathematicalString()),
+
+				TopAntagonistBestFitnessInSim:  s.SET.TopAntagonistOfAllRuns.BestFitness,
+				TopProtagonistBestFitnessInSim: s.SET.TopProtagonistOfAllRuns.BestFitness,
+
+				TopAntagonistBirthGenInSim:  s.SET.TopAntagonistOfAllRuns.BirthGen,
+				TopProtagonistBirthGenInSim: s.SET.TopProtagonistOfAllRuns.BirthGen,
+
+				TopAntagonistAgeInSim:  s.SET.TopAntagonistOfAllRuns.Age,
+				TopProtagonistAgeInSim: s.SET.TopProtagonistOfAllRuns.Age,
+
+				TopAntagonistStrategyInSim:  StrategiesToString(s.SET.TopAntagonistOfAllRuns),
+				TopProtagonistStrategyInSim: StrategiesToString(s.SET.TopProtagonistOfAllRuns),
+
+				AntagonistsAvgAgeInSim:  s.SET.AvgAgeAntagonist,
+				ProtagonistsAvgAgeInSim: s.SET.AvgAgeProtagonist,
+
+				TopAntagonistsAvgBirthGenInSim:  s.SET.AvgBirthGenAntagonist,
+				TopProtagonistsAvgBirthGenInSim: s.SET.AvgBirthGenProtagonist,
+
+				////////// ########################### AVERAGES #################################
+				AntagonistsMeanInSim:  s.SET.AntagonistMeanFitAcrossAllRuns,
+				ProtagonistsMeanInSim: s.SET.ProtagonistMeanFitAcrossAllRuns,
+
+				AntagonistStdDevInSim:  s.SET.AntagonistMeanStdDev,
+				ProtagonistStdDevInSim: s.SET.ProtagonistMeanStdDev,
+
+				AntagonistVarInSim:  s.SET.AntagonistMeanVar,
+				ProtagonistVarInSim: s.SET.ProtagonistMeanVar,
+			}
+		default:
+		}
+
+		AllCSVGens[i] = csvGen
+	}
+
+	//for i := 0; i < len(s.KRT.TopAntagonistOfAllRuns.Strategy); i++ {
+	//	stat := CSVStrat{
+	//		Num:          i,
+	//		KRTTopAStrat: string(s.KRT.TopAntagonistOfAllRuns.Strategy[i]),
+	//		HOFTopAStrat: string(s.HoF.TopAntagonistOfAllRuns.Strategy[i]),
+	//		RRTopAStrat:  string(s.RR.TopAntagonistOfAllRuns.Strategy[i]),
+	//		SETTopAStrat: string(s.SET.TopAntagonistOfAllRuns.Strategy[i]),
+	//		KRTTopPStrat: string(s.KRT.TopProtagonistOfAllRuns.Strategy[i]),
+	//		HOFTopPStrat: string(s.HoF.TopProtagonistOfAllRuns.Strategy[i]),
+	//		RRTopPStrat:  string(s.RR.TopProtagonistOfAllRuns.Strategy[i]),
+	//		SETTopPStrat: string(s.SET.TopProtagonistOfAllRuns.Strategy[i]),
+	//	}
+	//
+	//	AllCSVStats = append(AllCSVStats, stat)
+	//}
 
 	return AllCSVGens, AllCSVStats
 }
@@ -809,8 +802,7 @@ func CountPolDegree(mathematicalString string) int {
 	return count
 }
 
-// WriteCSV takes in the CSVAvg... object and writes it to the path. It DOES NOT CREATE the path if it does not exist.
-func (s *SimulationResult) WriteCSV(file *os.File, data []CSVAvgGenerationsCombinedAcrossRuns) error {
+func (s *SimulationResult) WriteCSV(file *os.File, data interface{}) error {
 	defer file.Close()
 
 	err := gocsv.MarshalFile(data, file)
@@ -820,6 +812,18 @@ func (s *SimulationResult) WriteCSV(file *os.File, data []CSVAvgGenerationsCombi
 
 	return nil
 }
+
+// WriteCSV takes in the CSVAvg... object and writes it to the path. It DOES NOT CREATE the path if it does not exist.
+//func (s *SimulationResult) WriteCSV(file *os.File, data []CSVAvgGenerationsCombinedAcrossRuns) error {
+//	defer file.Close()
+//
+//	err := gocsv.MarshalFile(data, file)
+//	if err != nil {
+//		return err
+//	}
+//
+//	return nil
+//}
 
 // WriteStratCSV takes in the CSVAvg... object and writes it to the path. It DOES NOT CREATE the path if it does not exist.
 func (s *SimulationResult) WriteStratCSV(file *os.File, data []CSVStrat) error {
@@ -842,7 +846,8 @@ func NewSimulationResult(topologicalResults []TopologicalResult) SimulationResul
 type TopologicalResult struct {
 	HasBeenAnalyzed bool
 
-	Topology string
+	Topology      string
+	TopologyParam float64
 
 	TopAntagonistOfAllRuns  Individual
 	TopProtagonistOfAllRuns Individual
@@ -1062,7 +1067,11 @@ func NewTopologicalResults(topology string, evolutionResults []EvolutionResult) 
 	}
 
 	return TopologicalResult{
-		HasBeenAnalyzed:               true,
+		HasBeenAnalyzed: true,
+
+		Topology:      evolutionResults[0].Topology,
+		TopologyParam: evolutionResults[0].TopologyParam,
+
 		TopAntagonistOfAllRuns:        topAntagonistInRun.Clone(-1),
 		TopProtagonistOfAllRuns:       topProtagonistInRun.Clone(-1),
 		FinalBestAntagonistOfAllRuns:  finAntagonistInRun,
@@ -1080,7 +1089,7 @@ func NewTopologicalResults(topology string, evolutionResults []EvolutionResult) 
 		AvgAgeAntagonist:  antAgeSum / runCountF,
 		AvgAgeProtagonist: antAgeSum / runCountF,
 
-		AvgBirthGenAntagonist: antBirthGenSum / runCountF,
+		AvgBirthGenAntagonist:  antBirthGenSum / runCountF,
 		AvgBirthGenProtagonist: proBirthGenSum / runCountF,
 
 		OldestAntagonist:  oldAnt,
